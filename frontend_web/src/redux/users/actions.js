@@ -1,3 +1,5 @@
+import {CLIENT_ID, CLIENT_SECRET, GET_TOKEN_URL, REGISTER_USER_URL} from "../../conf";
+
 export const USERS_LOGIN_REQUEST = 'USERS_LOGIN_REQUEST'
 export const USERS_LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS'
 export const USERS_LOGIN_FAIL = 'USERS_LOGIN_FAIL'
@@ -6,8 +8,7 @@ export const USERS_REGISTER_SUCCESS = 'USERS_REGISTER_SUCCESS'
 export const USERS_REGISTER_FAIL = 'USERS_REGISTER_FAIL'
 export const USERS_LOGOUT = 'USERS_LOGOUT'
 
-const GET_TOKEN_URL = 'http://localhost:8000/oauth2/token/'
-const REGISTER_USER_URL = 'http://localhost:8000/users/register-me/'
+
 export let register = (username, password, history) => {
     let success = () => {
         return {
@@ -75,8 +76,8 @@ export let login = (username, password, history) => {
         }
     }
     return (dispatch, getState) => {
-        let clientId = 'v0WJqw2wvL7qx422lcSgyAyeUTj2zRbIHuuq0l2d';
-        let clientSecret = 'JoBlLNarJiW95025YOrURl7SGduapkTVDJi2gfNAEKIL5ezFuDLIWijVedwtNXshAjAmLro18w9ye9qm1gp5jmF7JIHL76zZYm6qihhUIbHuQmMpPJdZfYDyKdgiqfzB';
+        let clientId = CLIENT_ID
+        let clientSecret = CLIENT_SECRET
         let data = `username=${username}&password=${password}&grant_type=password&client_id=${clientId}&client_secret=${clientSecret}`;
         dispatch(loginRequest())
         fetch(GET_TOKEN_URL, {

@@ -2,9 +2,9 @@ import {combineReducers, createStore, applyMiddleware} from "redux";
 import usersReducer from "./users/reducers";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from 'redux-thunk';
-import {createLogger} from 'redux-logger';
+// import {createLogger} from 'redux-logger';
 
-const logger = createLogger();
+// const logger = createLogger();
 const STORE_LOCAL_STORAGE = "REDUX"
 
 let loadState = () => {
@@ -19,7 +19,7 @@ let loadState = () => {
 
 const store = createStore(combineReducers({
     users: usersReducer
-}), loadState(), composeWithDevTools(applyMiddleware(thunk, logger)))
+}), loadState(), composeWithDevTools(applyMiddleware(thunk)))
 
 store.subscribe(() => {
     try {
