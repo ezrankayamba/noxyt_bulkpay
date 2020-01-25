@@ -106,8 +106,11 @@ export let login = (username, password, history) => {
     }
 }
 
-export const logout = () => {
+export const logout = (cb) => {
     localStorage.removeItem('accessToken');
+    if (cb) {
+        cb()
+    }
     return {
         type: USERS_LOGOUT
     }
