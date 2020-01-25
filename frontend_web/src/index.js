@@ -2,18 +2,18 @@ import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import Header from "./header";
 import {BrowserRouter as Router} from "react-router-dom";
-import Pages from "./components/pages/pages";
+import Pages from "./components/pages/Pages";
 import {connect, Provider} from 'react-redux'
 import store from "./redux/store";
 
-import {logout} from "./redux/users/actions";
+import {logout} from "./redux/auth/actions";
 import {notifyMe} from "./_helpers/notification";
 import {SESSION_TIMEOUT_LOGOUT_AT, SESSION_TIMEOUT_WARNING_AT} from "./conf";
 
 @connect((state) => {
     return {
-        user: state.users.user,
-        loggedIn: state.users.loggedIn
+        user: state.auth.user,
+        loggedIn: state.auth.loggedIn
     }
 }, {logout: logout})
 class Index extends Component {
@@ -48,7 +48,6 @@ class Index extends Component {
                 this.props.logout()
                 location.reload();
             }, SESSION_TIMEOUT_LOGOUT_AT);
-            console.log("Timeout set")
         }
     }
 
@@ -71,11 +70,9 @@ class Index extends Component {
     render() {
         return (
             <Router>
-                <div>
-                    <Header/>
-                    <div className="container">
-                        <Pages/>
-                    </div>
+                <Header/>
+                <div className="container small">
+                    <Pages/>
                 </div>
             </Router>
         );

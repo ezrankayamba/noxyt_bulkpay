@@ -2,18 +2,15 @@ import {
     USERS_LOGIN_FAIL,
     USERS_LOGIN_REQUEST,
     USERS_LOGIN_SUCCESS,
-    USERS_LOGOUT, USERS_REGISTER_FAIL,
-    USERS_REGISTER_REQUEST, USERS_REGISTER_SUCCESS
+    USERS_LOGOUT
 } from "./actions";
 
 let initialState = {
     user: null,
-    loggedIn: false,
-    errorMsg: ''
+    loggedIn: false
 }
 
-let usersReducer = (state = initialState, action) => {
-    console.log(action)
+let authReducer = (state = initialState, action) => {
     switch (action.type) {
         case USERS_LOGIN_REQUEST:
             return {
@@ -21,36 +18,20 @@ let usersReducer = (state = initialState, action) => {
                 loggedIn: false,
                 user: null
             }
+
         case USERS_LOGIN_SUCCESS:
             return {
                 ...state,
                 loggedIn: true,
                 user: {
-                    username: action.payload.username,
-                    token: action.payload.token,
+                    username: action.payload.username
                 }
             }
         case USERS_LOGIN_FAIL:
             return {
                 ...state,
                 loggedIn: false,
-                user: null,
-                errorMsg: action.payload.errorMsg
-            }
-        case USERS_REGISTER_REQUEST:
-            return {
-                ...state,
-                loggedIn: false,
                 user: null
-            }
-        case USERS_REGISTER_SUCCESS:
-            return {
-                ...state,
-            }
-        case USERS_REGISTER_FAIL:
-            return {
-                ...state,
-                errorMsg: action.payload.errorMsg
             }
         case USERS_LOGOUT:
             return {
@@ -61,7 +42,6 @@ let usersReducer = (state = initialState, action) => {
         default:
             return state
     }
-    return state
 }
 
-export default usersReducer
+export default authReducer

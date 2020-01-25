@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {logout} from "../../redux/auth/actions";
 
 @connect((state) => {
     return {
-        user: state.users.user
+        user: state.auth.user,
+        loggedIn: state.auth.loggedIn
     }
+}, {
+    logout: logout
 })
 class ProtectedPage extends Component {
+
     render() {
         const {user} = this.props
-        console.log("User: ", user)
         return (
             <div>
                 <h5>Protected page</h5>

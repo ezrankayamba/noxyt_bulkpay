@@ -1,28 +1,17 @@
 import React, {Component} from 'react';
-import {NavLink, Redirect} from "react-router-dom";
-import {logout} from "../../redux/users/actions";
 import {connect} from "react-redux";
+import {logout} from "../../redux/auth/actions";
+import {Redirect} from "react-router-dom";
 
+@connect((state) => {
+    return {}
+}, {logout: logout})
 class LogoutPage extends Component {
-    componentDidMount() {
-        this.props.logout()
-        location.reload();
-    }
 
     render() {
-        return (
-            <Redirect to="/login" />
-        );
-    }
-}
-const mapStateToProps = (state, ownProps) => {
-    return {
-        user: state.user,
-        loggedIn: state.loggedIn,
+        this.props.logout()
+        return <Redirect to="/login"/>
     }
 }
 
-const mapDispatchToProps = {
-    logout: logout
-}
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutPage);
+export default LogoutPage;

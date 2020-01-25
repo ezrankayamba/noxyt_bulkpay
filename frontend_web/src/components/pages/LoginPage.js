@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
 import {NavLink, Redirect} from "react-router-dom";
-import {login, logout} from "../../redux/users/actions";
+import {login, logout} from "../../redux/auth/actions";
 import {connect} from "react-redux";
 
+@connect((state) => {
+    return {
+        user: state.auth.user,
+        loggedIn: state.auth.loggedIn
+    }
+}, {
+    login: login,
+    logout: logout
+})
 class LoginPage extends Component {
     constructor(props) {
         super(props);
-        if(this.props.loggedIn){
-            this.props.logout();
-        }
-
         this.state = {
             username: '',
             password: '',
@@ -30,17 +35,22 @@ class LoginPage extends Component {
         this.setState({submitted: true});
         const {username, password} = this.state;
         if (username && password) {
-            this.props.login(username, password, this.props.history);
+            this.props.login({username, password, history: this.props.history}, (res) => {
+                console.log("Login response: ", res)
+                if (res) {
+                    // this.props.history.push("/")
+                }
+            });
         }
     }
 
     render() {
-        const { username, password } = this.state;
+        const {username, password} = this.state;
         const {loggedIn} = this.props
 
-        if (loggedIn){
+        if (loggedIn) {
             return (
-                <Redirect to="/" />
+                <Redirect to="/"/>
             )
         }
         return (
@@ -50,15 +60,16 @@ class LoginPage extends Component {
                         <legend>Login</legend>
                         <div className={'form-group'}>
                             <label htmlFor="username">Username</label>
-                            <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange}/>
+                            <input type="text" className="form-control" name="username" value={username}
+                                   onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
                             <label htmlFor="password">Password</label>
-                            <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange}/>
+                            <input type="password" className="form-control" name="password" value={password}
+                                   onChange={this.handleChange}/>
                         </div>
                         <div className="form-group">
                             <button className="btn btn-primary btn-sm">Login</button>
-                            <NavLink to="/register" className="btn btn-link">Register</NavLink>
                         </div>
                     </form>
                 </div>
@@ -67,16 +78,4 @@ class LoginPage extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        user: state.user,
-        loggedIn: state.loggedIn,
-        submitted: ownProps.submitted
-    }
-}
-
-const mapDispatchToProps = {
-    login: login,
-    logout: logout
-}
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default LoginPage

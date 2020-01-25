@@ -1,31 +1,21 @@
 import {NavLink} from "react-router-dom";
 import React, {Component} from 'react';
 import getMenus from "./components/pages/menus";
-import {logout} from "./redux/users/actions";
+import {logout} from "./redux/auth/actions";
 import {connect} from "react-redux";
 
-
+@connect((state) => {
+    return {
+        loggedIn: state.auth.loggedIn
+    }
+}, {logout: logout})
 class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            menus: getMenus()
-        };
-        this.doLogout = this.doLogout.bind(this)
-    }
-
-    doLogout() {
-        console.log("Do logout: ", this)
-        this.props.logout()
-        location.reload()
-    }
-
     render() {
-
+        let {loggedIn} = this.props
         return (
             <header className="app-bg-primary sticky-top">
                 <nav className="container text-light navbar navbar-dark navbar-expand-md pt-0 pb-0">
-                    <a href="#" className="navbar-brand">Tigo Pesa <span>Projects</span></a>
+                    <a href="#" className="navbar-brand">BULK PAYMENT</a>
                     <button
                         className="navbar-toggler"
                         data-toggle="collapse"
@@ -39,11 +29,9 @@ class Header extends Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navMenu">
                         <ul className="navbar-nav ml-auto">
-                            {this.state.menus.map(item => (
-                                <li key={item.id} className="nav-link">
-                                    {item.isLogout
-                                        ? <a className="nav-link" href="" onClick={this.doLogout}>Logout</a>
-                                        : <NavLink exact to={item.path} className="nav-link">{item.name}</NavLink>}
+                            {getMenus(loggedIn).map(item => (
+                                <li key={item.id} className="nav-item">
+                                    <NavLink exact to={item.path} className="nav-link">{item.name}</NavLink>
                                 </li>
                             ))}
                         </ul>
@@ -54,14 +42,4 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        user: state.user,
-        loggedIn: state.loggedIn,
-    }
-}
-
-const mapDispatchToProps = {
-    logout: logout
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header
