@@ -7,11 +7,12 @@ export const USERS_LOGOUT = 'USERS_LOGOUT'
 
 export let login = (params, cb) => {
     let username = params.username
-    let success = (username) => {
+    let success = ({username, token}) => {
         return {
             type: USERS_LOGIN_SUCCESS,
             payload: {
-                username: username
+                username: username,
+                token: token
             }
         }
     }
@@ -44,10 +45,8 @@ export let login = (params, cb) => {
                     dispatch(fail("Login failed: " + res.error_description))
                 } else {
                     try {
-                        dispatch(success(username))
-                        localStorage.setItem('accessToken', res.access_token);
-                        //cb({accessToken: res.access_token})
-                    }catch (e) {
+                        dispatch(success({username: username, token: res.access_token}))
+                    } catch (e) {
                         console.error(e)
                     }
                 }

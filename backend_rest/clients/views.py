@@ -4,7 +4,7 @@ from . import serializers
 from . import models
 
 
-class ClientListView(generics.ListAPIView):
+class ClientListView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, TokenHasScope]
     required_scopes = ['clients']
     serializer_class = serializers.ClientSerializer
@@ -13,8 +13,11 @@ class ClientListView(generics.ListAPIView):
         return models.Client.objects.all()
 
 
-class CreateClientView(generics.CreateAPIView):
+class ClientDetailView(generics.RetrieveUpdateDestroyAPIView):
     model = models.Client
     permission_classes = [permissions.IsAuthenticated, TokenHasScope]
     required_scopes = ['clients']
     serializer_class = serializers.ClientSerializer
+
+    def get_queryset(self):
+        return models.Client.objects.all()

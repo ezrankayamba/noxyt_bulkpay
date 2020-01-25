@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {NavLink, Redirect} from "react-router-dom";
-import {login, logout} from "../../redux/auth/actions";
+import {login, logout} from "../../../redux/auth/actions";
 import {connect} from "react-redux";
 
 @connect((state) => {

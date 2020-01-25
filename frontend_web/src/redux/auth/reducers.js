@@ -24,8 +24,9 @@ let authReducer = (state = initialState, action) => {
                 ...state,
                 loggedIn: true,
                 user: {
-                    username: action.payload.username
-                }
+                    username: action.payload.username,
+                    token: action.payload.token
+                },
             }
         case USERS_LOGIN_FAIL:
             return {

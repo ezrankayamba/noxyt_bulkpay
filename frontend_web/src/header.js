@@ -1,6 +1,6 @@
 import {NavLink} from "react-router-dom";
 import React, {Component} from 'react';
-import getMenus from "./components/pages/menus";
+import getMenus from "./components/menus";
 import {logout} from "./redux/auth/actions";
 import {connect} from "react-redux";
 

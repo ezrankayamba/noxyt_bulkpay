@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {logout} from "../../redux/auth/actions";
+import {logout} from "../../../redux/auth/actions";
 import {Redirect} from "react-router-dom";
 
 @connect((state) => {

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Link, Route, Switch} from "react-router-dom";
-import NotFoundPage from "./NotFoundPage";
 import getMenus from "./menus";
 import {connect} from "react-redux";
+import HomePage from "./pages/HomePage";
 
 @connect((state) => {
     return {
@@ -17,7 +17,7 @@ class Pages extends Component {
                 {menus.map(item => {
                     return <Route key={item.id} exact path={item.path} component={item.component}/>
                 })}
-                <Route component={NotFoundPage}/>
+                <Route component={HomePage}/>
             </Switch>
         );
     }

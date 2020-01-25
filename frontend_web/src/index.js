@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import Header from "./header";
 import {BrowserRouter as Router} from "react-router-dom";
-import Pages from "./components/pages/Pages";
+import Pages from "./components/Pages";
 import {connect, Provider} from 'react-redux'
 import store from "./redux/store";
 
@@ -19,21 +19,24 @@ import {SESSION_TIMEOUT_LOGOUT_AT, SESSION_TIMEOUT_WARNING_AT} from "./conf";
 class Index extends Component {
     constructor(props) {
         super(props);
-        this.events = [
-            "load",
-            "click",
-            "scroll",
-            "keypress"
-        ];
-
+        this.events = ["load", "click", "scroll", "keypress"];
         this.warn = this.warn.bind(this);
         this.resetSessionTimeout = this.resetSessionTimeout.bind(this);
-
         for (let i in this.events) {
             window.addEventListener(this.events[i], this.resetSessionTimeout);
         }
-
         this.setSessionTimeout();
+    }
+
+    render() {
+        return (
+            <Router>
+                <Header/>
+                <div className="container small">
+                    <Pages/>
+                </div>
+            </Router>
+        );
     }
 
     clearSessionTimeout() {
@@ -67,16 +70,7 @@ class Index extends Component {
         }
     }
 
-    render() {
-        return (
-            <Router>
-                <Header/>
-                <div className="container small">
-                    <Pages/>
-                </div>
-            </Router>
-        );
-    }
+
 }
 
 const root = (
