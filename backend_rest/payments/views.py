@@ -4,7 +4,7 @@ from . import serializers
 from . import models
 
 
-class BatchListView(generics.ListAPIView):
+class BatchListView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, TokenHasScope]
     required_scopes = ['payments', 'clients']
     serializer_class = serializers.BatchSerializer
@@ -13,24 +13,11 @@ class BatchListView(generics.ListAPIView):
         return models.Batch.objects.all()
 
 
-class BatchCreateView(generics.CreateAPIView):
+class BatchDetailView(generics.RetrieveUpdateDestroyAPIView):
     model = models.Batch
     permission_classes = [permissions.IsAuthenticated, TokenHasScope]
     required_scopes = ['payments', 'clients']
     serializer_class = serializers.BatchSerializer
 
-
-class PaymentListView(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
-    required_scopes = ['payments', 'clients']
-    serializer_class = serializers.PaymentSerializer
-
     def get_queryset(self):
-        return models.Payment.objects.all()
-
-
-class PaymentCreateView(generics.CreateAPIView):
-    model = models.Payment
-    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
-    required_scopes = ['payments', 'clients']
-    serializer_class = serializers.PaymentSerializer
+        return models.Batch.objects.all()

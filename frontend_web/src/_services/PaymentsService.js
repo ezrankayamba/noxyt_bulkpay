@@ -10,16 +10,16 @@ export const fetchBatches = (token, cb) => {
             cb(false)
         })
 }
-export const getClient = (token, id, cb) => {
-    apiGet(url + id, token)
+export const getBatch = (token, id, cb) => {
+    apiGet(url + "batches/" + id, token)
         .then(cb)
         .catch(e => {
             console.error(e)
             cb(false)
         })
 }
-export const createClient = (token, body, cb) => {
-    apiPost(url, body, token)
+export const createBatch = (token, body, cb) => {
+    apiPost(url + "batches/", body, token)
         .then(cb)
         .catch(e => {
             console.error(e)
@@ -34,8 +34,8 @@ export const updateClient = (token, body, id, cb) => {
             cb(false)
         })
 }
-export const deleteClient = (token, id, cb) => {
-    apiDelete(url + id, token)
+export const deleteBatch = (token, id, cb) => {
+    apiDelete(url + "batches/" + id, token)
         .then(cb)
         .catch(e => {
             console.error(e)

@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import {deleteClient, fetchClients} from "../../../_services/ClientsService";
 import {connect} from "react-redux";
-import {fetchBatches, fetchPayments} from "../../../_services/PaymentsService";
+import {deleteBatch, fetchBatches} from "../../../_services/PaymentsService";
 
 @connect((state) => {
     return {
         user: state.auth.user
     }
 })
-class PaymentList extends Component {
+class BatchList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +26,7 @@ class PaymentList extends Component {
     }
 
     delete(id) {
-        deleteClient(this.props.user.token, id, (res) => {
+        deleteBatch(this.props.user.token, id, (res) => {
             if (res) {
                 this.refresh()
             }
@@ -39,7 +38,7 @@ class PaymentList extends Component {
             <div className="row">
                 <div className="col">
                     <div className="d-flex align-items-center pb-2 pt-2">
-                        <h3 className="flex-grow-1">List of payments</h3>
+                        <h3 className="flex-grow-1">List of payment batches</h3>
                         <div>
                             <button className="btn btn-sm btn-primary"
                                     onClick={() => this.props.switchView('add')}>Create New
@@ -68,8 +67,8 @@ class PaymentList extends Component {
                                         }}>Delete
                                         </button>
                                         <button type="button" className="btn btn-sm btn-secondary ml-2" onClick={() => {
-                                            this.props.switchView('edit', item.id)
-                                        }}>Edit
+                                            this.props.switchView('view', item.id)
+                                        }}>View
                                         </button>
                                     </div>
                                 </td>
@@ -83,4 +82,4 @@ class PaymentList extends Component {
     }
 }
 
-export default PaymentList;
+export default BatchList;

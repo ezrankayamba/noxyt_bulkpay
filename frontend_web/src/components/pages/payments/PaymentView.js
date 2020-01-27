@@ -1,60 +1,69 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {createClient} from "../../../_services/ClientsService";
+import {getClient} from "../../../_services/ClientsService";
+import {getBatch} from "../../../_services/PaymentsService";
+
 @connect((state) => {
-    return {
-        user: state.auth.user
-    }
+    return {user: state.auth.user}
 })
-class PaymentAddForm extends Component {
+class PaymentView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            account: '',
-            selectedId: -1
+            batch: null,
+            records: []
         }
-        this.handleChange = this.handleChange.bind(this)
-        this.doAddClient = this.doAddClient.bind(this)
-    }
-    handleChange(e) {
-        const {name, value} = e.target;
-        this.setState({[name]: value});
     }
 
-    doAddClient(e) {
-        e.preventDefault()
-        let body = {name: this.state.name, account: this.state.account}
-        createClient(this.props.user.token, body, (res) => {
+    componentDidMount() {
+        getBatch(this.props.user.token, this.props.selectedId, (res) => {
             if (res) {
-                this.props.switchView('list')
+                this.setState({batch: res, records: res.records})
             }
         })
-    };
+    }
+
     render() {
         return (
-            <div className="row mb-2 mt-2">
-                <form onSubmit={this.doAddClient} className="bg-light col-md-6 offset-md-3 pt-2 pb-2">
-                    <h5 className="text-primary">Add new client</h5>
-                    <div className="form-group">
-                        <label htmlFor="name">Client Name</label>
-                        <input name="name" className="form-control" id="name" value={this.state.name}
-                               onChange={this.handleChange}/>
+            <div className="row">
+                <div className="col">
+                    <div className="d-flex align-items-center pb-2 pt-2">
+                        <h3 className="flex-grow-1">Payment Records</h3>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="account">Account MSISDN</label>
-                        <input name="account" className="form-control" id="account" value={this.state.account}
-                               onChange={this.handleChange}/>
-                    </div>
-                    <button type="submit" className="btn btn-sm btn-primary">Submit</button>
-                    <button type="button" className="btn btn-sm btn-warning ml-2" onClick={() => {
-                        this.props.switchView('list')
-                    }}>Cancel
-                    </button>
-                </form>
+                    <table className="table table-sm table-stripped table-hover">
+                        <thead className="bg-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Account</th>
+                            <th>Amount</th>
+                            <th>Reason</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.records.map(item => {
+                            return <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.account}</td>
+                                <td>{item.amount}</td>
+                                <td>{item.reason}</td>
+                                <td>
+                                    <div className="d-flex justify-content-end">
+                                        <button type="button" className="btn btn-sm btn-danger" onClick={() => {
+                                            this.delete(item.id)
+                                        }}>Delete
+                                        </button>
+                                        <button type="button" className="btn btn-sm btn-secondary ml-2">View</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     }
 }
 
-export default PaymentAddForm;
+export default PaymentView;

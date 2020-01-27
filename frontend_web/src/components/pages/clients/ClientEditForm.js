@@ -12,7 +12,8 @@ class ClientEditForm extends Component {
         super(props);
         this.state = {
             name: '',
-            account: ''
+            account: '',
+            loading: false
         }
         this.handleChange = this.handleChange.bind(this)
         this.doUpdateClient = this.doUpdateClient.bind(this)
@@ -32,14 +33,18 @@ class ClientEditForm extends Component {
     doUpdateClient(e) {
         e.preventDefault()
         let body = {id: this.props.selectedId, name: this.state.name, account: this.state.account}
-        updateClient(this.props.user.token, body, this.props.selectedId, (res) => {
-            if (res) {
-                this.props.switchView('list')
-            }
+        this.setState({loading: true}, () => {
+            updateClient(this.props.user.token, body, this.props.selectedId, (res) => {
+                this.setState({loading: false})
+                if (res) {
+                    this.props.switchView('list')
+                }
+            })
         })
     };
 
     render() {
+        let {loading} = this.state
         return (
             <div className="row mb-2 mt-2">
                 <form onSubmit={this.doUpdateClient} className="bg-light col-md-6 offset-md-3 pt-2 pb-2">
@@ -57,7 +62,9 @@ class ClientEditForm extends Component {
                         <input name="account" className="form-control" id="account" value={this.state.account}
                                onChange={this.handleChange}/>
                     </div>
-                    <button type="submit" className="btn btn-sm btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-sm btn-primary" disabled={loading}>{loading &&
+                    <i className="fa fa-sync fa-spin"></i>}Submit
+                    </button>
                     <button type="button" className="btn btn-sm btn-warning ml-2" onClick={() => {
                         this.props.switchView('list')
                     }}>Cancel

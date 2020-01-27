@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import PaymentList from "./PaymentList";
-import PaymentAddForm from "./PaymentAddForm";
+import BatchList from "./BatchList";
+import BatchAddForm from "./BatchAddForm";
 import PaymentView from "./PaymentView";
 
 class PaymentsIndexPage extends Component {
@@ -20,11 +20,11 @@ class PaymentsIndexPage extends Component {
     render() {
         switch (this.state.view) {
             case "add":
-                return <PaymentAddForm switchView={this.switchView}/>
+                return <BatchAddForm switchView={this.switchView}/>
             case "view":
-                return <PaymentView switchView={this.switchView}/>
+                return <PaymentView selectedId={this.state.selectedId} switchView={this.switchView}/>
             default:
-                return <PaymentList switchView={this.switchView}/>
+                return <BatchList switchView={this.switchView}/>
         }
     }
 }
