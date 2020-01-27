@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {createPath} from "history";
 import {createBatch} from "../../../_services/PaymentsService";
 
 @connect((state) => {

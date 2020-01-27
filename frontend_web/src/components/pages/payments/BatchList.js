@@ -40,8 +40,11 @@ class BatchList extends Component {
                     <div className="d-flex align-items-center pb-2 pt-2">
                         <h3 className="flex-grow-1">List of payment batches</h3>
                         <div>
-                            <button className="btn btn-sm btn-primary"
-                                    onClick={() => this.props.switchView('add')}>Create New
+                            <button className="btn btn-sm btn-secondary"
+                                    onClick={() => this.props.switchView('add')}>Manual Entry
+                            </button>
+                            <button className="btn btn-sm btn-primary ml-2"
+                                    onClick={() => this.props.switchView('add')}>Upload File
                             </button>
                         </div>
                     </div>
@@ -62,13 +65,13 @@ class BatchList extends Component {
                                 <td>{item.comments}</td>
                                 <td>
                                     <div className="d-flex justify-content-end">
-                                        <button type="button" className="btn btn-sm btn-danger" onClick={() => {
+                                        <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => {
                                             this.delete(item.id)
-                                        }}>Delete
+                                        }}><i className="fa fa-trash"></i>
                                         </button>
-                                        <button type="button" className="btn btn-sm btn-secondary ml-2" onClick={() => {
+                                        <button type="button" className="btn btn-sm ml-2 btn-outline-secondary" onClick={() => {
                                             this.props.switchView('view', item.id)
-                                        }}>View
+                                        }}><i className="fa fa-eye"></i>
                                         </button>
                                     </div>
                                 </td>

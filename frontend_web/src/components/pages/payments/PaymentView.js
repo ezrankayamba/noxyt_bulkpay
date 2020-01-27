@@ -49,11 +49,7 @@ class PaymentView extends Component {
                                 <td>{item.reason}</td>
                                 <td>
                                     <div className="d-flex justify-content-end">
-                                        <button type="button" className="btn btn-sm btn-danger" onClick={() => {
-                                            this.delete(item.id)
-                                        }}>Delete
-                                        </button>
-                                        <button type="button" className="btn btn-sm btn-secondary ml-2">View</button>
+
                                     </div>
                                 </td>
                             </tr>

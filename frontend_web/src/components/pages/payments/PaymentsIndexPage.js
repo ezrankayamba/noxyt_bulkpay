@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import BatchList from "./BatchList";
 import BatchAddForm from "./BatchAddForm";
 import PaymentView from "./PaymentView";
+import Button from "@material-ui/core/Button";
 
 class PaymentsIndexPage extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class PaymentsIndexPage extends Component {
         this.setState({view: name, selectedId: id})
     }
 
-    render() {
+    getView() {
         switch (this.state.view) {
             case "add":
                 return <BatchAddForm switchView={this.switchView}/>
@@ -26,6 +27,15 @@ class PaymentsIndexPage extends Component {
             default:
                 return <BatchList switchView={this.switchView}/>
         }
+    }
+
+    render() {
+        return (
+            <div>
+                {this.getView()}
+            </div>
+        )
+
     }
 }
 

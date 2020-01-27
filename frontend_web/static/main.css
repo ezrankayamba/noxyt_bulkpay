@@ -3,7 +3,7 @@
 }
 
 .nav-item > .nav-link{
-    color: #010616 !important;
+    /*color: #010616 !important;*/
     font-weight: bold;
 }
 .nav-item > .nav-link.active{
