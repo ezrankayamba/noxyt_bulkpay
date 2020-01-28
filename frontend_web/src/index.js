@@ -9,6 +9,7 @@ import store from "./redux/store";
 import {logout} from "./redux/auth/actions";
 import {notifyMe} from "./_helpers/notification";
 import {SESSION_TIMEOUT_LOGOUT_AT, SESSION_TIMEOUT_WARNING_AT} from "./conf";
+import Dashboard from "./components/pages/dashboard/Dashboard";
 
 @connect((state) => {
     return {
@@ -31,10 +32,11 @@ class Index extends Component {
     render() {
         return (
             <Router>
-                <Header/>
-                <div className="container small">
-                    <Pages/>
-                </div>
+                {/*<Header/>*/}
+                {/*<div className="container small">*/}
+                {/*    <Pages/>*/}
+                {/*</div>*/}
+                <Dashboard/>
             </Router>
         );
     }

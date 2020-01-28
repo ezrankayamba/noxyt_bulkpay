@@ -3,6 +3,10 @@ import React, {Component} from 'react';
 import getMenus from "./components/menus";
 import {logout} from "./redux/auth/actions";
 import {connect} from "react-redux";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItem from "@material-ui/core/ListItem";
 
 @connect((state) => {
     return {
@@ -13,31 +17,20 @@ class Header extends Component {
     render() {
         let {loggedIn} = this.props
         return (
-            <header className="app-bg-primary sticky-top">
-                <nav className="container text-light navbar navbar-dark navbar-expand-md pt-0 pb-0">
-                    <a href="#" className="navbar-brand">BULK PAYMENT</a>
-                    <button
-                        className="navbar-toggler"
-                        data-toggle="collapse"
-                        data-target="#navMenu"
-                        aria-controls="navMenu"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                        id="menu-toggle-btn"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navMenu">
-                        <ul className="navbar-nav ml-auto">
-                            {getMenus(loggedIn).map(item => (
-                                <li key={item.id} className="nav-item">
-                                    <NavLink exact to={item.path} className="nav-link">{item.name}</NavLink>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </nav>
-            </header>
+            <div>
+                {getMenus(loggedIn).map((item) => {
+                    return (
+                        <NavLink key={item.id} exact to={item.path} className="nav-link pl-0 text-secondary">
+                            <ListItem  button>
+                                <ListItemIcon>
+                                    {item.mIcon}
+                                </ListItemIcon>
+                                <ListItemText primary={item.name}/>
+                            </ListItem>
+                        </NavLink>
+                    )
+                })}
+            </div>
         );
     }
 }
