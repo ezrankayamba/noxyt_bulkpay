@@ -11,7 +11,7 @@ export const fetchClients = (token, cb) => {
         })
 }
 export const getClient = (token, id, cb) => {
-    apiGet(url+id, token)
+    apiGet(url + id, token)
         .then(cb)
         .catch(e => {
             console.error(e)
@@ -36,6 +36,14 @@ export const updateClient = (token, body, id, cb) => {
 }
 export const deleteClient = (token, id, cb) => {
     apiDelete(url + id, token)
+        .then(cb)
+        .catch(e => {
+            console.error(e)
+            cb(false)
+        })
+}
+export const deleteSelectedClients = (token, ids, cb) => {
+    apiPost(url + "deletes", ids, token)
         .then(cb)
         .catch(e => {
             console.error(e)

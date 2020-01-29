@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
-import {deleteClient, fetchClients} from "../../../_services/ClientsService";
+import {
+    createClient,
+    deleteClient,
+    deleteSelectedClients,
+    fetchClients,
+    updateClient
+} from "../../../_services/ClientsService";
 import {connect} from "react-redux";
 import EnhancedTable from "../../ui-utils/EnhancedTable";
+import {SimpleDialog} from "../../ui-utils/SimpleDialog";
 
 const headCells = [
     {field: 'name', title: 'Name'},
@@ -20,8 +27,13 @@ class ClientList extends Component {
             clients: [],
             order: 'asc',
             orderBy: null,
-            selected: []
+            selected: [],
+            open: true
         }
+        this.doAdd = this.doAdd.bind(this)
+        this.doDelete = this.doDelete.bind(this)
+        this.doDeleteSelected = this.doDeleteSelected.bind(this)
+        this.doUpdate = this.doUpdate.bind(this)
     }
 
     refresh() {
@@ -36,16 +48,38 @@ class ClientList extends Component {
         this.refresh()
     }
 
-    delete(id) {
-        deleteClient(this.props.user.token, id, (res) => {
-            if (res) {
-                this.refresh()
-            }
+    doDelete(params) {
+        deleteClient(this.props.user.token, params.id, (res) => {
+            params.cb()
+            this.refresh()
+        })
+    }
+
+    doDeleteSelected(params) {
+        deleteSelectedClients(this.props.user.token, params.ids, (res) => {
+            params.cb(res)
+            this.refresh()
+        })
+    }
+
+    doAdd(params) {
+        let body = {name: params.name, account: params.account}
+        createClient(this.props.user.token, body, (res) => {
+            params.cb()
+            this.refresh()
+        });
+    }
+
+    doUpdate(params) {
+        let body = {id: params.id, name: params.name, account: params.account}
+        updateClient(this.props.user.token, body, params.id, (res) => {
+            params.cb()
+            this.refresh()
         })
     }
 
     render() {
-        let {clients} = this.state;
+        let {clients, open} = this.state;
         let data = {
             records: clients,
             headers: headCells,
@@ -54,14 +88,8 @@ class ClientList extends Component {
         return (
             <div className="row">
                 <div className="col">
-                    {/*<div className="d-flex align-items-center pb-2 pt-2">*/}
-                    {/*    <div>*/}
-                    {/*        <button className="btn btn-sm btn-primary"*/}
-                    {/*                onClick={() => this.props.switchView('add')}>Create New*/}
-                    {/*        </button>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-                    <EnhancedTable clients={clients} data={data}/>
+                    <EnhancedTable clients={clients} data={data} onDeleteAll={this.doDeleteSelected}
+                                   onUpdate={this.doUpdate} onDelete={this.doDelete} onAdd={this.doAdd}/>
                 </div>
             </div>
         );

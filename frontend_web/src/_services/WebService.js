@@ -19,7 +19,7 @@ export const apiPost = (url, body, token) => {
         },
         body: JSON.stringify(body)
     }).then(res => {
-        if (res.status == 201) {
+        if (res.status == 201 || res.status == 200) {
             return res.json()
         }
         throw Error("Failure response: " + res.status)
