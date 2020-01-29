@@ -5,7 +5,7 @@ import {SimpleDialog} from "./SimpleDialog";
 
 let {Delete} = tableIcons;
 
-class EnhancedTable extends React.Component {
+class BasicCrudView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -80,4 +80,4 @@ class EnhancedTable extends React.Component {
     }
 }
 
-export default EnhancedTable;
+export default BasicCrudView;

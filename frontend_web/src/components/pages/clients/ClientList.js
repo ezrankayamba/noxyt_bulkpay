@@ -7,8 +7,7 @@ import {
     updateClient
 } from "../../../_services/ClientsService";
 import {connect} from "react-redux";
-import EnhancedTable from "../../ui-utils/EnhancedTable";
-import {SimpleDialog} from "../../ui-utils/SimpleDialog";
+import BasicCrudView from "../../ui-utils/BasicCrudView";
 
 const headCells = [
     {field: 'name', title: 'Name'},
@@ -27,8 +26,7 @@ class ClientList extends Component {
             clients: [],
             order: 'asc',
             orderBy: null,
-            selected: [],
-            open: true
+            selected: []
         }
         this.doAdd = this.doAdd.bind(this)
         this.doDelete = this.doDelete.bind(this)
@@ -79,7 +77,7 @@ class ClientList extends Component {
     }
 
     render() {
-        let {clients, open} = this.state;
+        let {clients} = this.state;
         let data = {
             records: clients,
             headers: headCells,
@@ -88,7 +86,7 @@ class ClientList extends Component {
         return (
             <div className="row">
                 <div className="col">
-                    <EnhancedTable clients={clients} data={data} onDeleteAll={this.doDeleteSelected}
+                    <BasicCrudView clients={clients} data={data} onDeleteAll={this.doDeleteSelected}
                                    onUpdate={this.doUpdate} onDelete={this.doDelete} onAdd={this.doAdd}/>
                 </div>
             </div>

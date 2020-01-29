@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {deleteBatch, fetchBatches} from "../../../_services/PaymentsService";
+import {createBatch, deleteBatch, deleteSelectedBatches, fetchBatches} from "../../../_services/PaymentsService";
+import BasicCrudView from "../../ui-utils/BasicCrudView";
 
 @connect((state) => {
     return {
@@ -13,6 +14,9 @@ class BatchList extends Component {
         this.state = {
             payments: []
         }
+        this.doAdd = this.doAdd.bind(this)
+        this.doDelete = this.doDelete.bind(this)
+        this.doDeleteSelected = this.doDeleteSelected.bind(this)
     }
     refresh(){
         fetchBatches(this.props.user.token, (res) => {
@@ -21,64 +25,47 @@ class BatchList extends Component {
             }
         })
     }
+
     componentDidMount() {
         this.refresh()
     }
 
-    delete(id) {
-        deleteBatch(this.props.user.token, id, (res) => {
-            if (res) {
-                this.refresh()
-            }
+    doDelete(params) {
+        deleteBatch(this.props.user.token, params.id, (res) => {
+            params.cb()
+            this.refresh()
         })
     }
 
+    doDeleteSelected(params) {
+        deleteSelectedBatches(this.props.user.token, params.ids, (res) => {
+            params.cb(res)
+            this.refresh()
+        })
+    }
+
+    doAdd(params) {
+        let body = {name: params.name, comments: params.comments}
+        createBatch(this.props.user.token, body, (res) => {
+            params.cb()
+            this.refresh()
+        });
+    }
+
     render() {
+        let data = {
+            records: this.state.payments,
+            headers: [
+                {field: 'name', title: 'Name'},
+                {field: 'comments', title: 'Comments'},
+            ],
+            title: 'List of batches'
+        }
         return (
             <div className="row">
                 <div className="col">
-                    <div className="d-flex align-items-center pb-2 pt-2">
-                        <h3 className="flex-grow-1">List of payment batches</h3>
-                        <div>
-                            <button className="btn btn-sm btn-secondary"
-                                    onClick={() => this.props.switchView('add')}>Manual Entry
-                            </button>
-                            <button className="btn btn-sm btn-primary ml-2"
-                                    onClick={() => this.props.switchView('add')}>Upload File
-                            </button>
-                        </div>
-                    </div>
-                    <table className="table table-sm table-stripped table-hover">
-                        <thead className="bg-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Comments</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.payments.map(item => {
-                            return <tr key={item.id}>
-                                <td>{item.id}</td>
-                                <td>{item.name}</td>
-                                <td>{item.comments}</td>
-                                <td>
-                                    <div className="d-flex justify-content-end">
-                                        <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => {
-                                            this.delete(item.id)
-                                        }}><i className="fa fa-trash"></i>
-                                        </button>
-                                        <button type="button" className="btn btn-sm ml-2 btn-outline-secondary" onClick={() => {
-                                            this.props.switchView('view', item.id)
-                                        }}><i className="fa fa-eye"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        })}
-                        </tbody>
-                    </table>
+                    <BasicCrudView data={data} onDeleteAll={this.doDeleteSelected}
+                                   onUpdate={this.doUpdate} onDelete={this.doDelete} onAdd={this.doAdd}/>
                 </div>
             </div>
         );

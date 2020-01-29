@@ -42,3 +42,12 @@ export const deleteBatch = (token, id, cb) => {
             cb(false)
         })
 }
+
+export const deleteSelectedBatches = (token, ids, cb) => {
+    apiPost(url + "batches/deletes", ids, token)
+        .then(cb)
+        .catch(e => {
+            console.error(e)
+            cb(false)
+        })
+}

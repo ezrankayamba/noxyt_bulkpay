@@ -3,7 +3,6 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, Token
 from . import serializers
 from . import models
 from rest_framework.views import APIView
-import json
 from rest_framework.response import Response
 
 
