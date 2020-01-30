@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import {tableIcons} from "./tableIcons";
 import {SimpleDialog} from "./SimpleDialog";
 
-let {Delete} = tableIcons;
+let {Delete, Add} = tableIcons;
 
 class BasicCrudView extends React.Component {
     constructor(props) {
@@ -31,9 +31,10 @@ class BasicCrudView extends React.Component {
     }
 
     render() {
-        const {headers, records, title} = this.props.data
+        const {headers, records, title, exportable} = this.props.data
         const {onAdd, onDelete, onUpdate} = this.props
         const {open} = this.state
+        const actions = this.props.actions ? this.props.actions : []
         return (
             <div>
                 <MaterialTable
@@ -42,7 +43,7 @@ class BasicCrudView extends React.Component {
                     columns={headers}
                     data={records}
                     options={{
-                        exportButton: true,
+                        exportButton: exportable,
                         selection: true
                     }}
                     actions={[
@@ -57,20 +58,21 @@ class BasicCrudView extends React.Component {
                                 })
                                 this.setState({open: true})
                             }
-                        }
+                        },
+                        ...actions
                     ]}
                     editable={{
-                        onRowAdd: newData => new Promise(resolve => {
+                        onRowAdd: onAdd ? newData => new Promise(resolve => {
                             onAdd({...newData, cb: resolve})
-                        }),
-                        onRowUpdate: (newData, oldData) =>
+                        }) : null,
+                        onRowUpdate: onUpdate ? (newData, oldData) =>
                             new Promise(resolve => {
                                 onUpdate({...newData, cb: resolve})
-                            }),
-                        onRowDelete: oldData =>
+                            }) : null,
+                        onRowDelete: onDelete ? oldData =>
                             new Promise(resolve => {
                                 onDelete({...oldData, cb: resolve})
-                            }),
+                            }) : null,
                     }}
                 />
                 <SimpleDialog open={open} handleClose={this.handleClose} handleOk={this.handleOk} title="Confirmation"

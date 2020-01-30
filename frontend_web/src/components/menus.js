@@ -21,7 +21,7 @@ const getMenus = (loggedIn) => {
         [
             {id: 1, path: "/", name: "Home", component: HomePage, mIcon: icons.home},
             {id: 2, path: "/clients", name: "Clients", component: ClientsIndexPage, mIcon: icons.clients},
-            {id: 3, path: "/payments", name: "Payments", component: PaymentsIndexPage, mIcon: icons.home},
+            {id: 3, path: "/payments", name: "Payments", component: PaymentsIndexPage, mIcon: icons.payments},
             {id: 4, path: "/logout", name: "Logout", component: LogoutPage, mIcon: icons.logout},
         ] : [
             {id: 1, path: "/", name: "Home", component: HomePage, mIcon: icons.home},

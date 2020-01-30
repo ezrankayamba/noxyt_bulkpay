@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {createBatch, deleteBatch, deleteSelectedBatches, fetchBatches} from "../../../_services/PaymentsService";
+import {
+    createBatch,
+    createBatchManual,
+    deleteBatch,
+    deleteSelectedBatches,
+    fetchBatches
+} from "../../../_services/PaymentsService";
 import BasicCrudView from "../../ui-utils/BasicCrudView";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import ManualEntryForm from "./ManualEntryForm";
+import FileUploadForm from "./FileUploadForm";
 
 @connect((state) => {
     return {
@@ -12,13 +22,36 @@ class BatchList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            payments: []
+            payments: [],
+            manualEntry: false,
+            fileUpload: false
         }
         this.doAdd = this.doAdd.bind(this)
         this.doDelete = this.doDelete.bind(this)
         this.doDeleteSelected = this.doDeleteSelected.bind(this)
     }
-    refresh(){
+
+    manualEntryComplete(data) {
+        console.log(data)
+        this.setState({manualEntry: false})
+        if (data) {
+            createBatchManual(this.props.user.token, data, (res) => {
+                console.log(res)
+            })
+        }
+    }
+
+    fileUploadComplete(data) {
+        console.log(data)
+        this.setState({fileUpload: false})
+        if(data){
+            createBatchManual(this.props.user.token, data, (res) => {
+                console.log(res)
+            })
+        }
+    }
+
+    refresh() {
         fetchBatches(this.props.user.token, (res) => {
             if (res) {
                 this.setState({payments: res})
@@ -64,8 +97,22 @@ class BatchList extends Component {
         return (
             <div className="row">
                 <div className="col">
+                    <Container className="p-2 d-flex justify-content-end">
+                        <Button variant="contained" color="default" onClick={() => {
+                            this.setState({manualEntry: true})
+                        }}>
+                            Manual Entry
+                        </Button>
+                        <Button variant="contained" color="primary" className="ml-2" onClick={() => {
+                            this.setState({fileUpload: true})
+                        }}>
+                            File Upload
+                        </Button>
+                    </Container>
                     <BasicCrudView data={data} onDeleteAll={this.doDeleteSelected}
-                                   onUpdate={this.doUpdate} onDelete={this.doDelete} onAdd={this.doAdd}/>
+                                   onUpdate={this.doUpdate} onDelete={this.doDelete}/>
+                    <ManualEntryForm open={this.state.manualEntry} complete={this.manualEntryComplete.bind(this)}/>
+                    <FileUploadForm open={this.state.fileUpload} complete={this.fileUploadComplete.bind(this)}/>
                 </div>
             </div>
         );

@@ -26,6 +26,14 @@ export const createBatch = (token, body, cb) => {
             cb(false)
         })
 }
+export const createBatchManual = (token, body, cb) => {
+    apiPost(url + "batches/manual-create/", body, token)
+        .then(cb)
+        .catch(e => {
+            console.error(e)
+            cb(false)
+        })
+}
 export const updateClient = (token, body, id, cb) => {
     apiUpdate(url, body, id, token)
         .then(cb)
