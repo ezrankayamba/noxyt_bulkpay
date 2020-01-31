@@ -1,15 +1,13 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
-import Header from "./header";
 import {BrowserRouter as Router} from "react-router-dom";
-import Pages from "./components/Pages";
 import {connect, Provider} from 'react-redux'
 import store from "./redux/store";
 
 import {logout} from "./redux/auth/actions";
 import {notifyMe} from "./_helpers/notification";
 import {SESSION_TIMEOUT_LOGOUT_AT, SESSION_TIMEOUT_WARNING_AT} from "./conf";
-import Dashboard from "./components/pages/dashboard/Dashboard";
+import MainLayout from "./components/pages/layout/MainLayout";
 
 @connect((state) => {
     return {
@@ -32,11 +30,7 @@ class Index extends Component {
     render() {
         return (
             <Router>
-                {/*<Header/>*/}
-                {/*<div className="container small">*/}
-                {/*    <Pages/>*/}
-                {/*</div>*/}
-                <Dashboard/>
+                <MainLayout/>
             </Router>
         );
     }

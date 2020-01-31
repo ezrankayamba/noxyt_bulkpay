@@ -114,6 +114,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 OAUTH2_PROVIDER = {
     'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'projects': 'Access list of projects', 'clients': 'Manage clients', 'payments': 'Manage payments'}
 }

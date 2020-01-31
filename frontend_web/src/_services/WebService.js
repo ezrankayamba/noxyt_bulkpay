@@ -10,14 +10,20 @@ export const apiGet = (url, token) => {
         throw Error("Failure response: " + res.status)
     })
 }
-export const apiPost = (url, body, token) => {
+export const apiPost = (url, body, token, type = 'application/json') => {
+    let headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': type
+    }
+    if (type === 'multipart/form-data') {
+        delete headers['Content-Type'];
+    } else {
+        body = JSON.stringify(body)
+    }
     return fetch(url, {
         method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
+        headers: headers,
+        body: body
     }).then(res => {
         if (res.status == 201 || res.status == 200) {
             return res.json()

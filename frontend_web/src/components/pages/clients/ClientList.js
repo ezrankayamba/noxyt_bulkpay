@@ -90,7 +90,7 @@ class ClientList extends Component {
             <div className="row">
                 <div className="col">
                     <BasicCrudView clients={clients} data={data} onDeleteAll={this.doDeleteSelected}
-                                   onUpdate={this.doUpdate} onDelete={this.doDelete} onAdd={this.doAdd}/>
+                                   onUpdate={this.doUpdate} onDelete={this.doDelete} onAdd={this.doAdd} toolbar={true}/>
                 </div>
             </div>
         );

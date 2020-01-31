@@ -14,4 +14,4 @@ class BatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Batch
-        fields = ('id', 'name', 'comments', 'created_at', 'updated_at', 'records')
+        fields = ('id', 'name', 'comments', 'created_at', 'updated_at', 'records', 'status')

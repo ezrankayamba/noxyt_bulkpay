@@ -34,6 +34,14 @@ export const createBatchManual = (token, body, cb) => {
             cb(false)
         })
 }
+export const createBatchFileUpload = (token, body, cb) => {
+    apiPost(url + "batches/file-create/", body, token, 'multipart/form-data')
+        .then(cb)
+        .catch(e => {
+            console.error(e)
+            cb(false)
+        })
+}
 export const updateClient = (token, body, id, cb) => {
     apiUpdate(url, body, id, token)
         .then(cb)

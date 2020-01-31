@@ -4,21 +4,19 @@ import DialogContent from "@material-ui/core/DialogContent";
 import {Dialog, DialogActions} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import readXlsxFile from 'read-excel-file'
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 class ManualEntryForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             records: [],
-            id: 0,
             name: "",
-            comments: ""
+            comments: "",
+            file: null
         }
         this.handleChange = this.handleChange.bind(this)
-    }
-
-    onFileLoad(e, file) {
-        console.log(e.target.result, file.name)
     }
 
     handleChange(e) {
@@ -26,50 +24,21 @@ class ManualEntryForm extends Component {
         this.setState({[name]: value});
     }
 
-    doDeleteSelected(params) {
-        params.cb()
-    }
-
-    doUpdate(params) {
-        let {records} = this.state
-        let record = {...params}
-        delete record.cb
-        this.setState({
-            records: records.map(r1 => [record].find(r2 => r2.id === r1.id) || r1)
-        }, () => {
-            console.log(record, this.state)
-            params.cb()
-        })
-    }
-
-    doDelete(params) {
-        params.cb()
-    }
-
-    onAdd(params) {
-        let {id, records} = this.state
-        id++
-        let record = {
-            id: id,
-            ...params
-        }
-        delete record.cb
-        this.setState({
-            id: id, records: [...this.state.records, record]
-        }, () => {
-            console.log(record, this.state)
-            params.cb()
-        })
-    }
-
     doSubmit() {
-        let batch = {
-            name: this.state.name,
-            comments: this.state.comments,
-            records: this.state.records
-        }
-        console.log(batch)
+        let batch = new FormData()
+        batch.append("name", this.state.name)
+        batch.append("comments", this.state.comments)
+        batch.append("file", this.state.file)
         this.props.complete(batch)
+    }
+
+    handleFileSelect(e) {
+        let file = e.target.files[0]
+        console.log(file)
+
+        this.setState({file: file, name: file.name}, () => {
+            console.log("State: ", this.state)
+        })
     }
 
     render() {
@@ -84,17 +53,21 @@ class ManualEntryForm extends Component {
             exportable: false
         }
         const {open, complete} = this.props
-        const {comments} = this.state
+        const {comments, completed} = this.state
         return (
             <Dialog open={open} fullWidth={true}>
-                <DialogTitle>File Upload</DialogTitle>
+                <DialogTitle className="pb-0">File Upload</DialogTitle>
                 <DialogContent>
                     <form noValidate autoComplete="off" className="mb-2">
                         <TextField fullWidth={true}
                                    multiline={true} value={comments}
                                    onChange={this.handleChange.bind(this)}
-                                   name="comments"
-                                   rows="2" label="Comments"/>
+                                   name="comments" label="Comments" placeholder="Enter batch comments"/>
+                        <div>
+                            <TextField fullWidth={true} type="file"
+                                       name="file" label="Batch file" placeholder="Select batch file"
+                                       onChange={this.handleFileSelect.bind(this)}/>
+                        </div>
                     </form>
                 </DialogContent>
                 <DialogActions>

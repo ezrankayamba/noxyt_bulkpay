@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {
-    createBatch,
+    createBatch, createBatchFileUpload,
     createBatchManual,
     deleteBatch,
     deleteSelectedBatches,
@@ -12,6 +12,8 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import ManualEntryForm from "./ManualEntryForm";
 import FileUploadForm from "./FileUploadForm";
+import RefreshIcon from '@material-ui/icons/Refresh';
+import BatchDetailPopup from "./BatchDetailPopup";
 
 @connect((state) => {
     return {
@@ -24,39 +26,68 @@ class BatchList extends Component {
         this.state = {
             payments: [],
             manualEntry: false,
-            fileUpload: false
+            fileUpload: false,
+            isLoading: false,
+            detail: false,
+            selectedBatch: null
         }
         this.doAdd = this.doAdd.bind(this)
         this.doDelete = this.doDelete.bind(this)
         this.doDeleteSelected = this.doDeleteSelected.bind(this)
+        this.onRowClick = this.onRowClick.bind(this)
+    }
+
+    onRowClick(e, row) {
+        console.log(row);
+        this.setState({selectedBatch: row, detail: true})
     }
 
     manualEntryComplete(data) {
         console.log(data)
         this.setState({manualEntry: false})
         if (data) {
+            this.setState({isLoading: true})
             createBatchManual(this.props.user.token, data, (res) => {
                 console.log(res)
+                this.refresh()
             })
         }
     }
 
-    fileUploadComplete(data) {
+    detailComplete(data) {
         console.log(data)
+        this.setState({detail: false})
+    }
+
+    fileUploadComplete(data) {
         this.setState({fileUpload: false})
-        if(data){
-            createBatchManual(this.props.user.token, data, (res) => {
+        if (data) {
+            this.setState({isLoading: true})
+            createBatchFileUpload(this.props.user.token, data, (res) => {
                 console.log(res)
+                this.refresh()
             })
         }
     }
 
     refresh() {
-        fetchBatches(this.props.user.token, (res) => {
-            if (res) {
-                this.setState({payments: res})
-            }
+        this.setState({isLoading: true}, () => {
+            fetchBatches(this.props.user.token, (res) => {
+                if (res) {
+                    this.setState({
+                        payments: res.map(item => {
+                            return {
+                                ...item,
+                                count: item.records.length,
+                                status: `${item.status === 0 ? "Loading..." : "Loaded"}`
+                            }
+                        }),
+                        isLoading: false
+                    })
+                }
+            })
         })
+
     }
 
     componentDidMount() {
@@ -89,11 +120,25 @@ class BatchList extends Component {
         let data = {
             records: this.state.payments,
             headers: [
+                {field: 'id', title: '#'},
                 {field: 'name', title: 'Name'},
                 {field: 'comments', title: 'Comments'},
+                {field: 'count', title: 'Count'},
+                {field: 'status', title: 'Status'},
             ],
             title: 'List of batches'
         }
+        const {isLoading, selectedBatch} = this.state
+        let actions = [
+            {
+                tooltip: 'Refresh',
+                icon: () => <RefreshIcon/>,
+                isFreeAction: true,
+                onClick: (evt, data) => {
+                    this.refresh()
+                }
+            }
+        ]
         return (
             <div className="row">
                 <div className="col">
@@ -109,13 +154,15 @@ class BatchList extends Component {
                             File Upload
                         </Button>
                     </Container>
-                    <BasicCrudView data={data} onDeleteAll={this.doDeleteSelected}
-                                   onUpdate={this.doUpdate} onDelete={this.doDelete}/>
+                    <BasicCrudView data={data} onDeleteAll={this.doDeleteSelected} isLoading={isLoading}
+                                   actions={actions} onRowClick={this.onRowClick}/>
                     <ManualEntryForm open={this.state.manualEntry} complete={this.manualEntryComplete.bind(this)}/>
                     <FileUploadForm open={this.state.fileUpload} complete={this.fileUploadComplete.bind(this)}/>
+                    <BatchDetailPopup open={this.state.detail} complete={this.detailComplete.bind(this)}
+                                      batch={selectedBatch}/>
                 </div>
             </div>
-        );
+        )
     }
 }
 

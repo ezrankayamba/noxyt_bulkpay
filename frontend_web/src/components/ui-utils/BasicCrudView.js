@@ -32,9 +32,25 @@ class BasicCrudView extends React.Component {
 
     render() {
         const {headers, records, title, exportable} = this.props.data
-        const {onAdd, onDelete, onUpdate} = this.props
+        const {onAdd, onDelete, onUpdate, isLoading, onRowClick} = this.props
         const {open} = this.state
-        const actions = this.props.actions ? this.props.actions : []
+        let actions = this.props.actions ? this.props.actions : []
+        const toolbar = this.props.toolbar || actions.length > 0 || onAdd
+        actions = [
+            {
+                tooltip: 'Remove all selected',
+                icon: () => <Delete/>,
+                onClick: (evt, data) => {
+                    this.setState({
+                        selectedIds: data.map(item => item.id)
+                    }, () => {
+                        console.log(this.state)
+                    })
+                    this.setState({open: true})
+                }
+            },
+            ...actions
+        ]
         return (
             <div>
                 <MaterialTable
@@ -42,25 +58,15 @@ class BasicCrudView extends React.Component {
                     title={title}
                     columns={headers}
                     data={records}
+                    isLoading={isLoading}
                     options={{
                         exportButton: exportable,
-                        selection: true
+                        selection: true,
+                        padding: 'dense',
+                        toolbar: toolbar
                     }}
-                    actions={[
-                        {
-                            tooltip: 'Remove all selected',
-                            icon: () => <Delete/>,
-                            onClick: (evt, data) => {
-                                this.setState({
-                                    selectedIds: data.map(item => item.id)
-                                }, () => {
-                                    console.log(this.state)
-                                })
-                                this.setState({open: true})
-                            }
-                        },
-                        ...actions
-                    ]}
+                    onRowClick={onRowClick}
+                    actions={actions}
                     editable={{
                         onRowAdd: onAdd ? newData => new Promise(resolve => {
                             onAdd({...newData, cb: resolve})

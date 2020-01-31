@@ -5,5 +5,6 @@ urlpatterns = [
     path('batches/', views.BatchListView.as_view()),
     path('batches/<int:pk>', views.BatchDetailView.as_view()),
     path('batches/manual-create/', views.ManualEntryCreateBatchView.as_view()),
-    # path('records/create/', views.PaymentCreateView.as_view()),
+    path('batches/file-create/', views.FileUploadCreateBatchView.as_view()),
+    path('batches/deletes', views.DeleteBatchesView.as_view()),
 ]

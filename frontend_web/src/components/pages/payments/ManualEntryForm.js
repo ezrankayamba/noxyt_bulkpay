@@ -83,15 +83,16 @@ class ManualEntryForm extends Component {
         const {open, complete} = this.props
         const {comments} = this.state
         return (
-            <Dialog open={open}>
-                <DialogTitle>Manual Entry</DialogTitle>
+            <Dialog open={open} fullWidth={true}>
+                <DialogTitle className="pb-0">Manual Entry</DialogTitle>
                 <DialogContent>
                     <form noValidate autoComplete="off" className="mb-2">
                         <TextField fullWidth={true}
                                    multiline={true} value={comments}
                                    onChange={this.handleChange.bind(this)}
                                    name="comments"
-                                   rows="2" label="Comments"/>
+                                   label="Comments"
+                                   placeholder="Enter batch comments"/>
                     </form>
                     <BasicCrudView data={data}
                                    onDeleteAll={this.doDeleteSelected.bind(this)}
