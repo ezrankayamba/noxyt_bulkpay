@@ -7,4 +7,6 @@ urlpatterns = [
     path('batches/manual-create/', views.ManualEntryCreateBatchView.as_view()),
     path('batches/file-create/', views.FileUploadCreateBatchView.as_view()),
     path('batches/deletes', views.DeleteBatchesView.as_view()),
+    path('fsm-states', views.FSMView.as_view()),
+    path('execute-action', views.BatchActionExecutionView.as_view()),
 ]

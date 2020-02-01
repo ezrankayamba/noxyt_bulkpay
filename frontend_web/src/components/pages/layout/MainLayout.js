@@ -17,6 +17,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import {secondaryListItems} from './listItems';
 import Pages from "../../Pages";
 import Header from "../../../header";
+import Grid from "@material-ui/core/Grid";
+import Avatar from "@material-ui/core/Avatar";
+import UserInfoView from "../UserInfoView";
 
 const drawerWidth = 240;
 
@@ -100,7 +103,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function MainLayout() {
+export default function MainLayout(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
@@ -110,7 +113,7 @@ export default function MainLayout() {
         setOpen(false);
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+    const {loggedIn, user} = props
     return (
         <div className={classes.root}>
             <CssBaseline/>
@@ -128,11 +131,7 @@ export default function MainLayout() {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         BULK PAY
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
+                    <UserInfoView user={user} loggedIn={loggedIn}/>
                 </Toolbar>
             </AppBar>
             <Drawer

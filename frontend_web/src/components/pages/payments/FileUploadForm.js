@@ -55,7 +55,7 @@ class ManualEntryForm extends Component {
         const {open, complete} = this.props
         const {comments, completed} = this.state
         return (
-            <Dialog open={open} fullWidth={true}>
+            <Dialog open={open} fullWidth={true} onClose={()=>{this.props.complete(false)}} keepMounted>
                 <DialogTitle className="pb-0">File Upload</DialogTitle>
                 <DialogContent>
                     <form noValidate autoComplete="off" className="mb-2">

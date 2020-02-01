@@ -82,8 +82,11 @@ class ManualEntryForm extends Component {
         }
         const {open, complete} = this.props
         const {comments} = this.state
+        let tableOptions = {
+            actionsColumnIndex: data.headers.length
+        }
         return (
-            <Dialog open={open} fullWidth={true}>
+            <Dialog open={open} fullWidth={true} onClose={()=>{this.props.complete(false)}} keepMounted>
                 <DialogTitle className="pb-0">Manual Entry</DialogTitle>
                 <DialogContent>
                     <form noValidate autoComplete="off" className="mb-2">
@@ -98,7 +101,8 @@ class ManualEntryForm extends Component {
                                    onDeleteAll={this.doDeleteSelected.bind(this)}
                                    onUpdate={this.doUpdate.bind(this)}
                                    onDelete={this.doDelete.bind(this)}
-                                   onAdd={this.onAdd.bind(this)}/>
+                                   onAdd={this.onAdd.bind(this)}
+                                   options={tableOptions}/>
                 </DialogContent>
                 <DialogActions>
                     <Button color="secondary" onClick={() => complete(false)}>Cancel</Button>

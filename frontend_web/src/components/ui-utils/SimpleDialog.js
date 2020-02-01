@@ -9,9 +9,8 @@ import Button from "@material-ui/core/Button";
 export const SimpleDialog = (props) => {
     const {title, description, open, handleClose, handleOk} = props
 
-
     return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog keepMounted onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle id="simple-dialog-title">{title}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">{description}</DialogContentText>

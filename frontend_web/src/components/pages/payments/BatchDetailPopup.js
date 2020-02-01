@@ -13,7 +13,6 @@ class BatchDetailPopup extends Component {
     }
 
     render() {
-        console.log(this.props)
         const {batch} = this.props
         if (batch === null) {
             return null
@@ -31,10 +30,10 @@ class BatchDetailPopup extends Component {
         }
         const {open} = this.props
         return (
-            <Dialog open={open} fullWidth={true}>
+            <Dialog  open={open} fullWidth={true} onClose={()=>{this.props.complete(false)}} keepMounted>
                 <DialogTitle className="pb-0">{batch.name}</DialogTitle>
                 <DialogContent>
-                    <Typography variant="b" component="p">
+                    <Typography component="p">
                         Comments: {batch.comments}
                     </Typography>
                     <BasicCrudView data={data}/>

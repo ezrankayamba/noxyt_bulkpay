@@ -10,18 +10,20 @@ import ListItem from "@material-ui/core/ListItem";
 
 @connect((state) => {
     return {
-        loggedIn: state.auth.loggedIn
+        loggedIn: state.auth.loggedIn,
+        user: state.auth.user
     }
 }, {logout: logout})
 class Header extends Component {
     render() {
-        let {loggedIn} = this.props
+        let {loggedIn, user} = this.props
+        let privileges = loggedIn ? user.profile.role.privileges : []
         return (
             <div>
-                {getMenus(loggedIn).map((item) => {
+                {getMenus(loggedIn, privileges).map((item) => {
                     return (
                         <NavLink key={item.id} exact to={item.path} className="nav-link pl-0 text-secondary">
-                            <ListItem  button>
+                            <ListItem button>
                                 <ListItemIcon>
                                     {item.mIcon}
                                 </ListItemIcon>

@@ -3,6 +3,7 @@ import authReducer from "./auth/reducers";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from 'redux-thunk';
 import {createLogger} from 'redux-logger';
+import fsmReducer from "./fsm/reducers";
 
 const logger = createLogger();
 const STORE_LOCAL_STORAGE = "REDUX"
@@ -18,7 +19,8 @@ let loadState = () => {
 }
 
 const store = createStore(combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    fsm: fsmReducer
 }), loadState(), composeWithDevTools(applyMiddleware(thunk)))
 
 store.subscribe(() => {

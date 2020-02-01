@@ -7,7 +7,7 @@ import {
 
 let initialState = {
     user: null,
-    loggedIn: false
+    loggedIn: false,
 }
 
 let authReducer = (state = initialState, action) => {
@@ -25,7 +25,8 @@ let authReducer = (state = initialState, action) => {
                 loggedIn: true,
                 user: {
                     username: action.payload.username,
-                    token: action.payload.token
+                    token: action.payload.token,
+                    profile: action.payload.profile
                 },
             }
         case USERS_LOGIN_FAIL:

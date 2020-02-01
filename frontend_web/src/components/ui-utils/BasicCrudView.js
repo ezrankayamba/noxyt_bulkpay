@@ -25,7 +25,7 @@ class BasicCrudView extends React.Component {
         this.props.onDeleteAll({
             ids: this.state.selectedIds,
             cb: (res) => {
-                console.log("Done ...", res)
+
             }
         })
     }
@@ -35,7 +35,8 @@ class BasicCrudView extends React.Component {
         const {onAdd, onDelete, onUpdate, isLoading, onRowClick} = this.props
         const {open} = this.state
         let actions = this.props.actions ? this.props.actions : []
-        const toolbar = this.props.toolbar || actions.length > 0 || onAdd
+        let options = this.props.options ? this.props.options : {}
+        // exportButton: exportable, toolbar: toolbar,
         actions = [
             {
                 tooltip: 'Remove all selected',
@@ -60,10 +61,8 @@ class BasicCrudView extends React.Component {
                     data={records}
                     isLoading={isLoading}
                     options={{
-                        exportButton: exportable,
                         selection: true,
-                        padding: 'dense',
-                        toolbar: toolbar
+                        ...options
                     }}
                     onRowClick={onRowClick}
                     actions={actions}

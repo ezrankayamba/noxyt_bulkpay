@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
 from . import imports
+from . import fsm
+from . import actions
 
 
 class BatchListView(generics.ListCreateAPIView):
@@ -74,4 +76,27 @@ class FileUploadCreateBatchView(APIView):
             'status': 0,
             'message': f'Successfully created -- records',
             'batchId': 123
+        })
+
+
+class FSMView(APIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['payments']
+
+    def get(self, request, format=None):
+        return Response(fsm.get_states())
+
+
+class BatchActionExecutionView(APIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['payments', 'clients']
+
+    def post(self, request, format=None):
+        data = request.data
+        action = data['action']
+        executor = actions.ActionExecutor()
+        executor.execute(action, data=data)
+        return Response({
+            'status': 0,
+            'message': f'Successfully executed batch action: {action}'
         })

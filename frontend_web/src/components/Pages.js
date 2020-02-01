@@ -6,12 +6,15 @@ import HomePage from "./pages/HomePage";
 
 @connect((state) => {
     return {
-        loggedIn: state.auth.loggedIn
+        loggedIn: state.auth.loggedIn,
+        user: state.auth.user
     }
 })
 class Pages extends Component {
     render() {
-        let menus = getMenus(this.props.loggedIn)
+        const {loggedIn, user} = this.props
+        let privileges = loggedIn ? user.profile.role.privileges : []
+        let menus = getMenus(this.props.loggedIn, privileges)
         return (
             <Switch>
                 {menus.map(item => {
