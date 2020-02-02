@@ -6,6 +6,7 @@ export const executeAction = (token, {action, id, cb}) => {
         .then(res => {
             cb(true)
         }).catch(error=>{
+            console.error(error)
             cb(false)
     })
 }

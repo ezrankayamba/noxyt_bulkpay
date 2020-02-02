@@ -19,22 +19,23 @@ class BatchActionView extends Component {
     }
 
     executeAction(e, action, id) {
+        e.preventDefault()
         e.stopPropagation()
         executeAction(this.props.user.token,{
             action: action, id: id, cb: (res) => {
-                console.log("Action execution: ", res)
+                if(res){
+                    this.props.complete()
+                }
             }
         })
     }
 
     getFsmState(code) {
         let state = this.props.fsm.states.find(s => s.code === code)
-        console.log("State: ", code, state)
         return state
     }
 
     render() {
-        console.log(this.props)
         const {rowData} = this.props
         const {actions} = this.getFsmState(rowData.status)
         return actions ? (

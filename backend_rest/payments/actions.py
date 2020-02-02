@@ -17,6 +17,20 @@ class ActionExecutor(object):
         batch.status = FSM_STATE_UNDER_APPROVAL
         batch.save()
 
+    def reject(self, **kwargs):
+        id = kwargs['batch']
+        print(f'Rejecting batch: {id}')
+        batch = models.Batch.objects.get(pk=id)
+        batch.status = FSM_STATE_REJECTED
+        batch.save()
+
+    def approve(self, **kwargs):
+        id = kwargs['batch']
+        print(f'Approving batch: {id}')
+        batch = models.Batch.objects.get(pk=id)
+        batch.status = FSM_STATE_SCHEDULED
+        batch.save()
+
     def not_found(self, **kwargs):
         print('Action not implemented: ', kwargs)
 

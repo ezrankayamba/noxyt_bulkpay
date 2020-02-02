@@ -77,7 +77,21 @@ def get_states():
             'code': FSM_STATE_UNDER_APPROVAL,
             'name': 'Batch under approval',
             'is_final': False,
-            'previous': [3, 2]
+            'previous': [3, 2],
+            'actions': [
+                {
+                    'name': 'reject',
+                    'title': 'Reject',
+                    'privilege': 'Payments.approvePayment',
+                    'warn': True
+                },
+                {
+                    'name': 'approve',
+                    'title': 'Approve',
+                    'privilege': 'Payments.approvePayment',
+                    'warn': False
+                }
+            ]
         },
         {
             'code': FSM_STATE_SCHEDULED,

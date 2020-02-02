@@ -12,6 +12,8 @@ class Command(BaseCommand):
             # Process here before setting it to 2 (ready to send for approval)
             batch.status = 2
             batch.save()
-            batch = models.Batch.objects.first()
             count += 1
+            print(f'Batch processed: {count} - {batch.id}')
+            batch = models.Batch.objects.filter(status=1).first()
+
         print(f'Initial processing completed by processing {count} batches')

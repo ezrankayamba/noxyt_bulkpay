@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import BatchList from "./BatchList";
+import BatchListView from "./BatchListView";
 
 class PaymentsIndexPage extends Component {
     constructor(props) {
@@ -8,7 +8,7 @@ class PaymentsIndexPage extends Component {
 
     render() {
         return (
-            <BatchList/>
+            <BatchListView/>
         )
     }
 }

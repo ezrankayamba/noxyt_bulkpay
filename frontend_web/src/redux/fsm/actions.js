@@ -1,5 +1,5 @@
 import {apiGet} from "../../_services/WebService";
-import {BASE_URL} from "../../conf";
+import {BASE_URL, REFRESH_ACTIONS_AT} from "../../conf";
 import {dateAdd} from "../../_helpers/datetime";
 import moment from "moment";
 
@@ -32,10 +32,9 @@ export let refreshFSM = (token, cb) => {
 
         let fsm = getState().fsm
         let expired = (last) => {
-            let duration = moment(last).add(5, 'minutes').diff(moment())
+            let duration = moment(last).add(REFRESH_ACTIONS_AT, 'minutes').diff(moment())
             return duration < 0
         }
-        console.log("Refreshing fsm: ", fsm)
         if (fsm.states && fsm.at && !expired(fsm.at)) {
             console.log("Still valid: ", fsm.at)
             cb(true)

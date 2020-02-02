@@ -23,7 +23,7 @@ import {refreshFSM} from "../../../redux/fsm/actions";
         fsm: state.fsm
     }
 }, {refreshFSM: refreshFSM})
-class BatchList extends Component {
+class BatchListView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,16 +39,15 @@ class BatchList extends Component {
         this.doDeleteSelected = this.doDeleteSelected.bind(this)
         this.onRowClick = this.onRowClick.bind(this)
         this.translate = this.translate.bind(this)
+        this.refresh = this.refresh.bind(this)
     }
 
     onRowClick(e, row) {
-        console.log(row);
         this.setState({selectedBatch: row, detail: true})
     }
 
     translate(code) {
         let state = this.props.fsm.states.find(s => s.code === code)
-        // console.log("State: ", code, state)
         return state.name
     }
 
@@ -96,7 +95,6 @@ class BatchList extends Component {
                 }
             })
         })
-
     }
 
     componentDidMount() {
@@ -139,7 +137,7 @@ class BatchList extends Component {
                 {field: 'statusText', title: 'Status'},
                 {
                     field: 'action', title: 'Action',
-                    render: rowData => <BatchActionView rowData={rowData}/>
+                    render: rowData => <BatchActionView rowData={rowData} complete={this.refresh}/>
                 },
             ],
             title: 'List of batches'
@@ -185,4 +183,4 @@ class BatchList extends Component {
     }
 }
 
-export default BatchList;
+export default BatchListView;
