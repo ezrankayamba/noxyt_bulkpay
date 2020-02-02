@@ -21,9 +21,9 @@ class BatchActionView extends Component {
     executeAction(e, action, id) {
         e.preventDefault()
         e.stopPropagation()
-        executeAction(this.props.user.token,{
+        executeAction(this.props.user.token, {
             action: action, id: id, cb: (res) => {
-                if(res){
+                if (res) {
                     this.props.complete()
                 }
             }
@@ -37,14 +37,19 @@ class BatchActionView extends Component {
 
     render() {
         const {rowData} = this.props
-        const {actions} = this.getFsmState(rowData.status)
-        return actions ? (
+        let {actions} = this.getFsmState(rowData.status)
+        if (actions) {
+            let myPrivs = this.props.user.profile.role.privileges
+            console.log(myPrivs, actions.map(a => a.privilege))
+            actions = actions.filter(a => myPrivs.includes(a.privilege))
+        }
+        return actions && actions.length ? (
             <ButtonGroup>
                 {actions.map(a => <Button key={a.name} variant="outlined" size="small"
                                           color={a.warn ? "secondary" : "primary"}
                                           onClick={(e) => this.executeAction(e, a.name, rowData.id)}>{a.title}</Button>)}
             </ButtonGroup>
-        ) : <Typography>Wait, batch is processing</Typography>
+        ) : <Typography>Wait...</Typography>
     }
 }
 

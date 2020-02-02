@@ -82,13 +82,13 @@ def get_states():
                 {
                     'name': 'reject',
                     'title': 'Reject',
-                    'privilege': 'Payments.approvePayment',
+                    'privilege': 'Payments.approvePayments',
                     'warn': True
                 },
                 {
                     'name': 'approve',
                     'title': 'Approve',
-                    'privilege': 'Payments.approvePayment',
+                    'privilege': 'Payments.approvePayments',
                     'warn': False
                 }
             ]
