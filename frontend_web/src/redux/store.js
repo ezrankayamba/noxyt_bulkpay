@@ -2,10 +2,7 @@ import {combineReducers, createStore, applyMiddleware} from "redux";
 import authReducer from "./auth/reducers";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from 'redux-thunk';
-import {createLogger} from 'redux-logger';
 import fsmReducer from "./fsm/reducers";
-
-const logger = createLogger();
 const STORE_LOCAL_STORAGE = "REDUX"
 
 let loadState = () => {

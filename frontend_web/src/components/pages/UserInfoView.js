@@ -9,7 +9,6 @@ import {Link, NavLink} from "react-router-dom";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import HomeIcon from '@material-ui/icons/Home';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 class UserInfoView extends Component {
@@ -38,7 +37,11 @@ class UserInfoView extends Component {
 
     render() {
         const {user, loggedIn} = this.props
-        let disp = loggedIn && `${user.profile.role.name} <${user.username}>`
+        if (!user || !user.profile) {
+            return null
+        }
+        let profile = user.profile
+        let disp = loggedIn && `${profile ? profile.role.name : 'None'} <${user.username}>`
         return (
             <Box>
                 {loggedIn && <>

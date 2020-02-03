@@ -17,7 +17,8 @@ import ListItem from "@material-ui/core/ListItem";
 class Header extends Component {
     render() {
         let {loggedIn, user} = this.props
-        let privileges = loggedIn ? user.profile.role.privileges : []
+
+        let privileges = loggedIn && user && user.profile ? user.profile.role.privileges : []
         return (
             <div>
                 {getMenus(loggedIn, privileges).map((item) => {

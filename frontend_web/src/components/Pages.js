@@ -13,7 +13,7 @@ import HomePage from "./pages/HomePage";
 class Pages extends Component {
     render() {
         const {loggedIn, user} = this.props
-        let privileges = loggedIn ? user.profile.role.privileges : []
+        let privileges = loggedIn && user && user.profile ? user.profile.role.privileges : []
         let menus = getMenus(this.props.loggedIn, privileges)
         return (
             <Switch>
