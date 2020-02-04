@@ -1,5 +1,5 @@
 import {FSM_REFRESH_FAIL, FSM_REFRESH_REQUEST, FSM_REFRESH_SUCCESS} from "./actions";
-import moment from "moment";
+import dayjs from "dayjs";
 
 let initialState = {
     states: null,
@@ -17,7 +17,7 @@ let fsmReducer = (state = initialState, action) => {
             return {
                 ...state,
                 states: action.payload.states,
-                at: moment().format()
+                at: dayjs().format()
             }
         case FSM_REFRESH_FAIL:
             return {

@@ -1,7 +1,6 @@
 import {apiGet} from "../../_services/WebService";
 import {BASE_URL, REFRESH_ACTIONS_AT} from "../../conf";
-import {dateAdd} from "../../_helpers/datetime";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export const FSM_REFRESH_REQUEST = 'FSM_REFRESH_REQUEST'
 export const FSM_REFRESH_SUCCESS = 'FSM_REFRESH_SUCCESS'
@@ -32,7 +31,7 @@ export let refreshFSM = (token, cb) => {
 
         let fsm = getState().fsm
         let expired = (last) => {
-            let duration = moment(last).add(REFRESH_ACTIONS_AT, 'minutes').diff(moment())
+            let duration = dayjs(last).add(REFRESH_ACTIONS_AT, 'minute').diff(dayjs())
             return duration < 0
         }
         if (fsm.states && fsm.at && !expired(fsm.at)) {
@@ -40,7 +39,7 @@ export let refreshFSM = (token, cb) => {
             cb(true)
             return
         } else {
-            console.log("Expired: ", fsm.at, moment().format())
+            console.log("Expired: ", fsm.at, dayjs().format())
         }
         dispatch(request())
         apiGet(BASE_URL + "/payments/fsm-states", token)
