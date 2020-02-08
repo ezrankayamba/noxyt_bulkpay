@@ -8,13 +8,14 @@ import {
     fetchBatches
 } from "../../../_services/PaymentsService";
 import BasicCrudView from "../../ui-utils/BasicCrudView";
+import Button from "@material-ui/core/Button";
 import ManualEntryForm from "./ManualEntryForm";
 import FileUploadForm from "./FileUploadForm";
 import RefreshIcon from '@material-ui/icons/Refresh';
 import BatchDetailPopup from "./BatchDetailPopup";
+import {Box} from "@material-ui/core";
 import BatchActionView from "./BatchActionView";
 import {refreshFSM} from "../../../redux/fsm/actions";
-import Modal from "../../model/Modal";
 
 @connect((state) => {
     return {
@@ -22,7 +23,7 @@ import Modal from "../../model/Modal";
         fsm: state.fsm
     }
 }, {refreshFSM: refreshFSM})
-class BatchListView extends Component {
+class BatchListViewMUI extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,8 +32,7 @@ class BatchListView extends Component {
             fileUpload: false,
             isLoading: false,
             detail: false,
-            selectedBatch: null,
-            showModel: true
+            selectedBatch: null
         }
         this.doAdd = this.doAdd.bind(this)
         this.doDelete = this.doDelete.bind(this)
@@ -44,7 +44,6 @@ class BatchListView extends Component {
 
     onRowClick(e, row) {
         this.setState({selectedBatch: row, detail: true})
-
     }
 
     translate(code) {
@@ -117,9 +116,6 @@ class BatchListView extends Component {
             this.refresh()
         })
     }
-    testModel(e){
-        this.setState({showModel: true})
-    }
 
     doAdd(params) {
         let body = {name: params.name, comments: params.comments}
@@ -161,28 +157,25 @@ class BatchListView extends Component {
         return (
             <div className="row">
                 <div className="col">
-                    <div className="row pt-2 pb-2 d-flex">
-                        <div className="col-md">
-                            <h5>List of batches</h5>
-                        </div>
-                        <div className="col-md">
-                            <div className="btn-group float-md-right">
-                                <button onClick={this.testModel.bind(this)}>Test Model</button>
-                                <button className="btn btn-outline-primary" onClick={() => {
-                                    this.setState({manualEntry: true})
-                                }}>Manual Entry</button>
-                                <button className="btn btn-outline-primary" onClick={() => {
-                                    this.setState({fileUpload: true})
-                                }}>Upload File</button>
-                            </div>
-                        </div>
-                    </div>
+                    <Box className="p-2 d-flex justify-content-end">
+                        <Button size="large" variant="outlined" onClick={() => {
+                            this.setState({manualEntry: true})
+                        }}>
+                            Manual Entry
+                        </Button>
+                        <Button size="large" variant="outlined" color="primary" className="ml-2" onClick={() => {
+                            this.setState({fileUpload: true})
+                        }}>
+                            File Upload
+                        </Button>
+                    </Box>
                     <BasicCrudView data={data} onDeleteAll={this.doDeleteSelected} isLoading={isLoading}
                                    actions={actions} onRowClick={this.onRowClick}/>
                     <ManualEntryForm open={this.state.manualEntry} complete={this.manualEntryComplete.bind(this)}/>
                     <FileUploadForm open={this.state.fileUpload} complete={this.fileUploadComplete.bind(this)}/>
                     <BatchDetailPopup open={this.state.detail} complete={this.detailComplete.bind(this)}
                                       batch={selectedBatch}/>
+
                 </div>
 
             </div>
@@ -190,4 +183,4 @@ class BatchListView extends Component {
     }
 }
 
-export default BatchListView;
+export default BatchListViewMUI;

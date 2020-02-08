@@ -2,7 +2,6 @@ import React from 'react';
 import MaterialTable from 'material-table';
 import {tableIcons} from "./tableIcons";
 import {SimpleDialog} from "./SimpleDialog";
-import CrudTable from "./CrudTable";
 
 let {Delete, Add} = tableIcons;
 
@@ -55,7 +54,7 @@ class BasicCrudView extends React.Component {
         ]
         return (
             <div>
-                <CrudTable
+                <MaterialTable
                     icons={tableIcons}
                     title={title}
                     columns={headers}

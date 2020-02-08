@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import {BrowserRouter as Router} from "react-router-dom";
 import {connect, Provider} from 'react-redux'
 import store from "./redux/store";
+import "./_styles/App.css"
 
 import {logout} from "./redux/auth/actions";
 import {notifyMe} from "./_helpers/notification";

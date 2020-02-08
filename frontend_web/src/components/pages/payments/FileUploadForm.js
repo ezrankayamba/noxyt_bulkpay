@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import {Dialog, DialogActions} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import readXlsxFile from 'read-excel-file'
-import LinearProgress from "@material-ui/core/LinearProgress";
+import Modal from "../../model/Modal";
 
 class ManualEntryForm extends Component {
     constructor(props) {
@@ -53,28 +47,22 @@ class ManualEntryForm extends Component {
             exportable: false
         }
         const {open, complete} = this.props
-        const {comments, completed} = this.state
+        const {comments} = this.state
+        const title = "File Upload"
         return (
-            <Dialog open={open} fullWidth={true} onClose={()=>{this.props.complete(false)}} keepMounted>
-                <DialogTitle className="pb-0">File Upload</DialogTitle>
-                <DialogContent>
-                    <form noValidate autoComplete="off" className="mb-2">
-                        <TextField fullWidth={true}
-                                   multiline={true} value={comments}
-                                   onChange={this.handleChange.bind(this)}
-                                   name="comments" label="Comments" placeholder="Enter batch comments"/>
-                        <div>
-                            <TextField fullWidth={true} type="file"
-                                       name="file" label="Batch file" placeholder="Select batch file"
-                                       onChange={this.handleFileSelect.bind(this)}/>
-                        </div>
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <Button color="secondary" onClick={() => complete(false)}>Cancel</Button>
-                    <Button color="primary" onClick={this.doSubmit.bind(this)}>Submit</Button>
-                </DialogActions>
-            </Dialog>
+            <Modal title={title} handleClose={() => {
+                this.props.complete(false)
+            }} show={open} children={<form noValidate autoComplete="off" className="mb-2">
+                <textarea class="form-control"  onChange={this.handleChange.bind(this)}
+                           name="comments" placeholder="Enter batch comments" width={100}/>
+                <div className="pt-3">
+                    <input type="file" class="form-control"  onChange={this.handleFileSelect.bind(this)}/>
+                </div>
+            </form>}
+                   footer={<div className="btn-group">
+                       <button className="btn btn-outline-danger" onClick={() => complete(false)}>Cancel</button>
+                       <button className="btn btn-outline-primary" onClick={this.doSubmit.bind(this)}>Submit</button>
+                   </div>}/>
         );
     }
 }

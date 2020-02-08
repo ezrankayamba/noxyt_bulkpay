@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Typography from "@material-ui/core/Typography";
 import {connect} from "react-redux";
 import {refreshFSM} from "../../../redux/fsm/actions";
 import {executeAction} from "../../../_services/FSMService";
@@ -41,12 +44,12 @@ class BatchActionView extends Component {
             actions = actions.filter(a => myPrivs.includes(a.privilege))
         }
         return actions && actions.length ? (
-            <div className="btn-group">
-                {actions.map(a => <button key={a.name}
-                                          className={a.warn ? "btn btn-sm btn-outline-danger" : "btn btn-sm btn-outline-primary"}
-                                          onClick={(e) => this.executeAction(e, a.name, rowData.id)}>{a.title}</button>)}
-            </div>
-        ) : <span>Wait...</span>
+            <ButtonGroup>
+                {actions.map(a => <Button key={a.name} variant="outlined" size="small"
+                                          color={a.warn ? "secondary" : "primary"}
+                                          onClick={(e) => this.executeAction(e, a.name, rowData.id)}>{a.title}</Button>)}
+            </ButtonGroup>
+        ) : <Typography>Wait...</Typography>
     }
 }
 
