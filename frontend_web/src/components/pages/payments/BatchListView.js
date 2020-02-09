@@ -10,11 +10,10 @@ import {
 import BasicCrudView from "../../ui-utils/BasicCrudView";
 import ManualEntryForm from "./ManualEntryForm";
 import FileUploadForm from "./FileUploadForm";
-import RefreshIcon from '@material-ui/icons/Refresh';
 import BatchDetailPopup from "./BatchDetailPopup";
 import BatchActionView from "./BatchActionView";
 import {refreshFSM} from "../../../redux/fsm/actions";
-import Modal from "../../model/Modal";
+
 
 @connect((state) => {
     return {
@@ -44,7 +43,6 @@ class BatchListView extends Component {
 
     onRowClick(e, row) {
         this.setState({selectedBatch: row, detail: true})
-
     }
 
     translate(code) {
@@ -150,7 +148,6 @@ class BatchListView extends Component {
         let actions = [
             {
                 tooltip: 'Refresh',
-                icon: () => <RefreshIcon/>,
                 isFreeAction: true,
                 onClick: (evt, data) => {
                     this.refresh()

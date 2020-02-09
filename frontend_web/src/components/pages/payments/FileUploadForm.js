@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Modal from "../../model/Modal";
+import Modal from "../../modal/Modal";
 
 class ManualEntryForm extends Component {
     constructor(props) {
@@ -18,51 +18,48 @@ class ManualEntryForm extends Component {
         this.setState({[name]: value});
     }
 
-    doSubmit() {
-        let batch = new FormData()
-        batch.append("name", this.state.name)
-        batch.append("comments", this.state.comments)
-        batch.append("file", this.state.file)
-        this.props.complete(batch)
+    doSubmit(e) {
+        if (this.state.name && this.state.comments) {
+            let batch = new FormData()
+            batch.append("name", this.state.name)
+            batch.append("comments", this.state.comments)
+            batch.append("file", this.state.file)
+            this.props.complete(batch)
+        } else {
+            console.log("Invalid data")
+        }
     }
 
     handleFileSelect(e) {
         let file = e.target.files[0]
-        console.log(file)
-
         this.setState({file: file, name: file.name}, () => {
             console.log("State: ", this.state)
         })
     }
 
     render() {
-        let data = {
-            records: this.state.records,
-            headers: [
-                {field: 'account', title: 'MSISDN'},
-                {field: 'amount', title: 'Amount'},
-                {field: 'reason', title: 'Reason'},
-            ],
-            title: null,
-            exportable: false
-        }
         const {open, complete} = this.props
-        const {comments} = this.state
         const title = "File Upload"
         return (
             <Modal title={title} handleClose={() => {
                 this.props.complete(false)
-            }} show={open} children={<form noValidate autoComplete="off" className="mb-2">
-                <textarea class="form-control"  onChange={this.handleChange.bind(this)}
-                           name="comments" placeholder="Enter batch comments" width={100}/>
-                <div className="pt-3">
-                    <input type="file" class="form-control"  onChange={this.handleFileSelect.bind(this)}/>
-                </div>
-            </form>}
+            }} show={open}
+                   children={<form autoComplete="off"
+                                   className="mb-2">
+                <textarea className="form-control" onChange={this.handleChange.bind(this)}
+                          name="comments" placeholder="Enter batch comments" width={100} required/>
+                       <div className="pt-3">
+                           <input type="file" className="form-control" onChange={this.handleFileSelect.bind(this)}
+                                  required/>
+                       </div>
+                   </form>}
                    footer={<div className="btn-group">
                        <button className="btn btn-outline-danger" onClick={() => complete(false)}>Cancel</button>
-                       <button className="btn btn-outline-primary" onClick={this.doSubmit.bind(this)}>Submit</button>
-                   </div>}/>
+                       <button type="button" className="btn btn-outline-primary"
+                               onClick={this.doSubmit.bind(this)}>Submit
+                       </button>
+                   </div>}
+            />
         );
     }
 }

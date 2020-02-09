@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import {Dialog, DialogActions} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import BasicCrudView from "../../ui-utils/BasicCrudView";
-import Typography from "@material-ui/core/Typography";
+import Modal from "../../modal/Modal";
+import CrudTable from "../../ui-utils/CrudTable";
 
 class BatchDetailPopup extends Component {
     constructor(props) {
@@ -14,7 +10,7 @@ class BatchDetailPopup extends Component {
 
     render() {
         const {batch} = this.props
-        if (batch === null) {
+        if (!batch) {
             return null
         }
         const {records} = batch
@@ -30,19 +26,9 @@ class BatchDetailPopup extends Component {
         }
         const {open} = this.props
         return (
-            <Dialog  open={open} fullWidth={true} onClose={()=>{this.props.complete(false)}} keepMounted>
-                <DialogTitle className="pb-0">{batch.name}</DialogTitle>
-                <DialogContent>
-                    <Typography component="p">
-                        Comments: {batch.comments}
-                    </Typography>
-                    <BasicCrudView data={data}/>
-                </DialogContent>
-                <DialogActions>
-                    <Button color="secondary" onClick={this.props.complete}>Cancel</Button>
-                    <Button color="primary" onClick={this.props.complete}>Submit</Button>
-                </DialogActions>
-            </Dialog>
+            <Modal large={true} modalId="batchDetail" title={batch.name} show={open} handleClose={() => {
+                this.props.complete(false)
+            }} children={<CrudTable columns={data.headers} data={data.records}/>}/>
         );
     }
 }

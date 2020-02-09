@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import {Dialog, DialogActions} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import BasicCrudView from "../../ui-utils/BasicCrudView";
-import TextField from "@material-ui/core/TextField";
+import Modal from "../../modal/Modal";
+import CrudTable from "../../ui-utils/CrudTable";
 
 class ManualEntryForm extends Component {
     constructor(props) {
@@ -30,21 +26,22 @@ class ManualEntryForm extends Component {
     doUpdate(params) {
         let {records} = this.state
         let record = {...params}
-        delete record.cb
+        // delete record.cb
         this.setState({
             records: records.map(r1 => [record].find(r2 => r2.id === r1.id) || r1)
         }, () => {
             console.log(record, this.state)
-            params.cb()
+            // params.cb()
         })
     }
 
     doDelete(params) {
-        params.cb()
+        console.log(params)
+        this.setState({records: this.state.records.filter(r => r.id !== params.id)})
     }
 
     onAdd(params) {
-        let {id, records} = this.state
+        let {id} = this.state
         id++
         let record = {
             id: id,
@@ -55,7 +52,7 @@ class ManualEntryForm extends Component {
             id: id, records: [...this.state.records, record]
         }, () => {
             console.log(record, this.state)
-            params.cb()
+            // params.cb()
         })
     }
 
@@ -76,39 +73,32 @@ class ManualEntryForm extends Component {
                 {field: 'account', title: 'MSISDN'},
                 {field: 'amount', title: 'Amount'},
                 {field: 'reason', title: 'Reason'},
+                {
+                    field: 'actions',
+                    title: '',
+                    render: (row) => <button onClick={() => this.doDelete(row)}>Delete</button>
+                },
             ],
             title: null,
             exportable: false
         }
         const {open, complete} = this.props
-        const {comments} = this.state
         let tableOptions = {
             actionsColumnIndex: data.headers.length
         }
         return (
-            <Dialog open={open} fullWidth={true} onClose={()=>{this.props.complete(false)}} keepMounted>
-                <DialogTitle className="pb-0">Manual Entry</DialogTitle>
-                <DialogContent>
-                    <form noValidate autoComplete="off" className="mb-2">
-                        <TextField fullWidth={true}
-                                   multiline={true} value={comments}
-                                   onChange={this.handleChange.bind(this)}
-                                   name="comments"
-                                   label="Comments"
-                                   placeholder="Enter batch comments"/>
-                    </form>
-                    <BasicCrudView data={data}
-                                   onDeleteAll={this.doDeleteSelected.bind(this)}
-                                   onUpdate={this.doUpdate.bind(this)}
-                                   onDelete={this.doDelete.bind(this)}
-                                   onAdd={this.onAdd.bind(this)}
-                                   options={tableOptions}/>
-                </DialogContent>
-                <DialogActions>
-                    <Button color="secondary" onClick={() => complete(false)}>Cancel</Button>
-                    <Button color="primary" onClick={this.doSubmit.bind(this)}>Submit</Button>
-                </DialogActions>
-            </Dialog>
+            <Modal modalId="manualEntry" show={open} handleClose={() => complete(false)} title="Manual Entry"
+                   children={<CrudTable columns={data.headers} data={data.records}
+                                        onDeleteAll={this.doDeleteSelected.bind(this)}
+                                        onUpdate={this.doUpdate.bind(this)}
+                                        onDelete={this.doDelete.bind(this)}
+                                        onAdd={this.onAdd.bind(this)}
+                                        options={tableOptions}/>}
+                   footer={<div className="btn-group">
+                       <button className="btn btn-outline-danger" onClick={() => complete(false)}>Cancel</button>
+                       <button className="btn btn-outline-primary" onClick={this.doSubmit.bind(this)}>Submit</button>
+                   </div>}
+            />
         );
     }
 }

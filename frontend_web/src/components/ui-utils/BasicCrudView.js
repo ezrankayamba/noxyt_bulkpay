@@ -1,10 +1,6 @@
 import React from 'react';
-import MaterialTable from 'material-table';
-import {tableIcons} from "./tableIcons";
 import {SimpleDialog} from "./SimpleDialog";
 import CrudTable from "./CrudTable";
-
-let {Delete, Add} = tableIcons;
 
 class BasicCrudView extends React.Component {
     constructor(props) {
@@ -41,7 +37,6 @@ class BasicCrudView extends React.Component {
         actions = [
             {
                 tooltip: 'Remove all selected',
-                icon: () => <Delete/>,
                 onClick: (evt, data) => {
                     this.setState({
                         selectedIds: data.map(item => item.id)
@@ -56,7 +51,6 @@ class BasicCrudView extends React.Component {
         return (
             <div>
                 <CrudTable
-                    icons={tableIcons}
                     title={title}
                     columns={headers}
                     data={records}

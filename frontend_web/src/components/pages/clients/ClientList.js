@@ -9,8 +9,6 @@ import {
 } from "../../../_services/ClientsService";
 import {connect} from "react-redux";
 import BasicCrudView from "../../ui-utils/BasicCrudView";
-import {tableIcons} from "../../ui-utils/tableIcons";
-let {Delete, Add} = tableIcons;
 
 const headCells = [
     {field: 'name', title: 'Name'},
