@@ -1,0 +1,8 @@
+{
+  "appId": "tz.co.nezatech.apps.bulkpay",
+  "appName": "Bulk Pay",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "cordova": {}
+}

@@ -19,7 +19,6 @@ INSTALLED_APPS = [
     'clients.apps.ClientsConfig',
     'payments.apps.PaymentsConfig',
     'users.apps.UsersConfig',
-    'web.apps.WebConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
