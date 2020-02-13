@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Bulk Pay</string>
-    <string name="title_activity_main">Bulk Pay</string>
-    <string name="package_name">tz.co.nezatech.apps.bulkpay</string>
-    <string name="custom_url_scheme">tz.co.nezatech.apps.bulkpay</string>
-</resources>
