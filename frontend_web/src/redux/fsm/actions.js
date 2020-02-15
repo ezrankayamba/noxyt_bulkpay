@@ -26,20 +26,16 @@ export let refreshFSM = (token, cb) => {
             type: FSM_REFRESH_REQUEST
         }
     }
-    console.log(token, cb)
     return (dispatch, getState) => {
-
         let fsm = getState().fsm
         let expired = (last) => {
             let duration = dayjs(last).add(REFRESH_ACTIONS_AT, 'minute').diff(dayjs())
             return duration < 0
         }
         if (fsm.states && fsm.at && !expired(fsm.at)) {
-            console.log("Still valid: ", fsm.at)
             cb(true)
             return
         } else {
-            console.log("Expired: ", fsm.at, dayjs().format())
         }
         dispatch(request())
         apiGet(BASE_URL + "/payments/fsm-states", token)

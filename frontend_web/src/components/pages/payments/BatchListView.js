@@ -52,17 +52,18 @@ class BatchListView extends Component {
 
     manualEntryComplete(data) {
         this.setState({manualEntry: false})
-        if (data) {
+        if (data.records.length) {
             this.setState({isLoading: true})
             createBatchManual(this.props.user.token, data, (res) => {
                 console.log(res)
                 this.refresh()
             })
+        }else{
+            console.error("The batch is empty")
         }
     }
 
     detailComplete(data) {
-        console.log(data)
         this.setState({detail: false})
     }
 
@@ -136,6 +137,7 @@ class BatchListView extends Component {
                 {field: 'name', title: 'Name'},
                 {field: 'comments', title: 'Comments'},
                 {field: 'count', title: 'Count'},
+                {field: 'created_at', title: 'Created'},
                 {field: 'statusText', title: 'Status'},
                 {
                     field: 'action', title: 'Action',
@@ -164,7 +166,6 @@ class BatchListView extends Component {
                         </div>
                         <div className="col-md">
                             <div className="btn-group float-md-right">
-                                <button onClick={this.testModel.bind(this)}>Test Model</button>
                                 <button className="btn btn-outline-primary" onClick={() => {
                                     this.setState({manualEntry: true})
                                 }}>Manual Entry</button>
@@ -181,7 +182,6 @@ class BatchListView extends Component {
                     <BatchDetailPopup open={this.state.detail} complete={this.detailComplete.bind(this)}
                                       batch={selectedBatch}/>
                 </div>
-
             </div>
         )
     }

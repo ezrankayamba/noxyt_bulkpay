@@ -11,7 +11,7 @@ const getMenus = (loggedIn, privileges) => {
     }
     let menus = loggedIn ?
         [
-            {id: 1, path: "/", name: "Home", component: HomePage, privilege: 'Anonymous'},
+            {id: 1, path: "/home", name: "Home", component: HomePage, privilege: 'Anonymous'},
             {
                 id: 2,
                 path: "/clients",
@@ -34,7 +34,7 @@ const getMenus = (loggedIn, privileges) => {
                 privilege: 'Anonymous'
             },
         ] : [
-            {id: 1, path: "/", name: "Home", component: HomePage, privilege: 'Anonymous'},
+            {id: 1, path: "/home", name: "Home", component: HomePage, privilege: 'Anonymous'},
             {id: 2, path: "/login", name: "Login", component: LoginPage, privilege: 'Anonymous'}
         ]
     return menus.filter(pFilter);

@@ -44,7 +44,7 @@ class ManualEntryForm extends Component {
             <Modal title={title} handleClose={() => {
                 this.props.complete(false)
             }} show={open}
-                   children={<form autoComplete="off"
+                   content={<form autoComplete="off"
                                    className="mb-2">
                 <textarea className="form-control" onChange={this.handleChange.bind(this)}
                           name="comments" placeholder="Enter batch comments" width={100} required/>

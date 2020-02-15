@@ -20,7 +20,7 @@ class Header extends Component {
                 {getMenus(loggedIn, privileges).map((item) => {
                     return (
                         <li key={item.id} className="nav-item">
-                            <NavLink to={item.path} className="nav-link pl-0 text-secondary">{item.name}</NavLink>
+                            <NavLink to={item.path} className="nav-link text-secondary btn btn-light ml-1 mr-1">{item.name}</NavLink>
                         </li>
                     )
                 })}

@@ -25,10 +25,11 @@ class BatchDetailPopup extends Component {
             exportable: false
         }
         const {open} = this.props
+        console.log(records)
         return (
             <Modal large={true} modalId="batchDetail" title={batch.name} show={open} handleClose={() => {
                 this.props.complete(false)
-            }} children={<CrudTable columns={data.headers} data={data.records}/>}/>
+            }} content={<CrudTable tableId="batchDetailTable" columns={data.headers} data={records}/>}/>
         );
     }
 }

@@ -3,12 +3,16 @@
 }
 
 .nav-item > .nav-link{
-    /*color: #010616 !important;*/
-    font-weight: bold;
+    padding: .2rem .4rem;
 }
-.nav-item > .nav-link.active{
-    color: #ffffff!important;
-}
-.nav-item > .nav-link:hover{
-    color: #f0f0f0!important;
+
+
+.loading-indicator{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    /*background: aqua;*/
+    padding: .4rem 1rem;
 }
