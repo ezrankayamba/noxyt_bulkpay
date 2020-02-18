@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiUpdate} from "./WebService";
+import {BASE_URL} from "../conf";
 
-let url = "http://localhost:8000/payments/"
+let url = `${BASE_URL}/payments/`
 
 export const fetchBatches = (token, cb) => {
     apiGet(url + "batches", token)

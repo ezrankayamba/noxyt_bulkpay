@@ -1,6 +1,7 @@
 import {apiDelete, apiGet, apiPost, apiUpdate} from "./WebService";
+import {BASE_URL} from "../conf";
 
-let url = "http://localhost:8000/clients/"
+let url = `${BASE_URL}/clients/`
 
 export const fetchClients = (token, cb) => {
     apiGet(url, token)
