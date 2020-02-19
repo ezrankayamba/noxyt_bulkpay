@@ -29,7 +29,7 @@ class BasicCrudView extends React.Component {
 
     render() {
         const {headers, records, title, exportable} = this.props.data
-        const {onAdd, onDelete, onUpdate, isLoading, onRowClick} = this.props
+        const {onAdd, onDelete, onUpdate, isLoading, onRowClick, pages, count} = this.props
         const {open} = this.state
         let actions = this.props.actions ? this.props.actions : []
         let options = this.props.options ? this.props.options : {}
@@ -54,6 +54,8 @@ class BasicCrudView extends React.Component {
                     title={title}
                     columns={headers}
                     data={records}
+                    pages={pages}
+                    count={count}
                     isLoading={isLoading}
                     options={{
                         selection: true,

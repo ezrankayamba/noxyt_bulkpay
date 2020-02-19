@@ -17,12 +17,10 @@ class CrudTable extends React.Component {
     }
 
     render() {
-        const {columns, data, onRowClick, isLoading, newRecord, tableId} = this.props
+        const {columns, data, onRowClick, isLoading, newRecord, tableId, pages, count} = this.props
         const {pageSize, pageNo} = this.state
         let from = (pageNo - 1) * pageSize
         let to = from + pageSize
-        let count = data.length
-        let pages = count % pageSize ? Math.ceil(count / pageSize) : Math.floor(count / pageSize)
         let form = {
             title: "Add Record",
             fields: [

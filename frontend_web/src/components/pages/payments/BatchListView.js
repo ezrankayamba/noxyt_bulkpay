@@ -31,7 +31,9 @@ class BatchListView extends Component {
             isLoading: false,
             detail: false,
             selectedBatch: null,
-            showModel: true
+            showModel: true,
+            pages: 1,
+            count: 0
         }
         this.doAdd = this.doAdd.bind(this)
         this.doDelete = this.doDelete.bind(this)
@@ -58,7 +60,7 @@ class BatchListView extends Component {
                 console.log(res)
                 this.refresh()
             })
-        }else{
+        } else {
             console.error("The batch is empty")
         }
     }
@@ -91,7 +93,9 @@ class BatchListView extends Component {
                                 statusText: this.translate(item.status),
                             }
                         }),
-                        isLoading: false
+                        isLoading: false,
+                        pages: res.pages,
+                        count: res.records
                     })
                 }
             })
@@ -117,7 +121,8 @@ class BatchListView extends Component {
             this.refresh()
         })
     }
-    testModel(e){
+
+    testModel(e) {
         this.setState({showModel: true})
     }
 
@@ -147,7 +152,7 @@ class BatchListView extends Component {
             ],
             title: 'List of batches'
         }
-        const {isLoading, selectedBatch} = this.state
+        const {isLoading, selectedBatch, pages, count} = this.state
         let actions = [
             {
                 tooltip: 'Refresh',
@@ -169,14 +174,17 @@ class BatchListView extends Component {
                             <div className="btn-group float-md-right">
                                 <button className="btn btn-outline-primary" onClick={() => {
                                     this.setState({manualEntry: true})
-                                }}>Manual Entry</button>
+                                }}>Manual Entry
+                                </button>
                                 <button className="btn btn-outline-primary" onClick={() => {
                                     this.setState({fileUpload: true})
-                                }}>Upload File</button>
+                                }}>Upload File
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <BasicCrudView data={data} onDeleteAll={this.doDeleteSelected} isLoading={isLoading}
+                    <BasicCrudView pages={pages} count={count} data={data} onDeleteAll={this.doDeleteSelected}
+                                   isLoading={isLoading}
                                    actions={actions} onRowClick={this.onRowClick}/>
                     <ManualEntryForm open={this.state.manualEntry} complete={this.manualEntryComplete.bind(this)}/>
                     <FileUploadForm open={this.state.fileUpload} complete={this.fileUploadComplete.bind(this)}/>
