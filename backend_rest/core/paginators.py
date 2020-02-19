@@ -10,6 +10,6 @@ class CustomPagination(pagination.PageNumberPagination):
             'records': p.count,
             'page_no': self.page.number,
             'per_page': p.per_page,
-            'self': dir(p)
+            'Access-Control-Expose-Headers': 'pages, records'
         }
         return Response(data, headers=headers)

@@ -1,11 +1,20 @@
-import {apiDelete, apiGet, apiPost, apiUpdate} from "./WebService";
+import {apiDelete, apiGet, apiGetPaginated, apiPost, apiUpdate} from "./WebService";
 import {BASE_URL} from "../conf";
 
 let url = `${BASE_URL}/payments/`
 
-export const fetchBatches = (token, cb) => {
-    apiGet(url + "batches", token)
-        .then(cb)
+export const fetchBatches = (token, page, cb) => {
+    apiGetPaginated(url + "batches", token, page)
+        .then(res => {
+            if (res.status === 200) {
+                let {pages, records} = res.headers
+                cb({
+                    data: res.data,
+                    pages, records
+                })
+            } else
+                throw Error("Failure response: " + res.status)
+        })
         .catch(e => {
             console.error(e)
             cb(false)

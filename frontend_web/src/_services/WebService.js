@@ -1,3 +1,5 @@
+const axios = require('axios').default;
+
 export const apiGet = (url, token) => {
     return fetch(url, {
         headers: {
@@ -8,6 +10,13 @@ export const apiGet = (url, token) => {
             return res.json()
         }
         throw Error("Failure response: " + res.status)
+    })
+}
+export const apiGetPaginated = (url, token, page = 1) => {
+    return axios.get(url,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
     })
 }
 export const apiPost = (url, body, token, type = 'application/json') => {

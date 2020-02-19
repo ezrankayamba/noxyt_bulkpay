@@ -80,10 +80,11 @@ class BatchListView extends Component {
 
     refresh() {
         this.setState({isLoading: true}, () => {
-            fetchBatches(this.props.user.token, (res) => {
+            fetchBatches(this.props.user.token, 1, (res) => {
+                console.log(res)
                 if (res) {
                     this.setState({
-                        payments: res.map(item => {
+                        payments: res.data.map(item => {
                             return {
                                 ...item,
                                 count: item.records.length,
