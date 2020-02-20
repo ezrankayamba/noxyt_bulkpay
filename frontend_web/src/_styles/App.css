@@ -1,5 +1,5 @@
 .app-bg-primary {
-    background: rgb(242, 101, 34);
+    background: #F26522;
 }
 
 .nav-item > .nav-link{
@@ -13,6 +13,17 @@
     left: 50%;
     margin-top: -50px;
     margin-left: -50px;
-    /*background: aqua;*/
     padding: .4rem 1rem;
+}
+body, html{
+    height: 100%;
+}
+body {
+    background: linear-gradient(#F2B5B2, #f1f1f1, #f1f1f1, #f1f1f1);
+}
+.main-nav{
+    box-shadow: 2px 3px 5px #C0B5B2;
+}
+.react-icons {
+    margin-bottom: .2rem;
 }

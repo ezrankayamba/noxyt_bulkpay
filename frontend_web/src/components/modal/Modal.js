@@ -15,13 +15,13 @@ class Modal extends Component {
         return (
             <div className={showHideClassName} onClick={this.otherClick.bind(this)} id={modalId}>
                 <div className={large ? "modal-main p-0 large" : "modal-main p-0"}>
-                    <div className="row bg-light m-0 p-2">
+                    <div className="row m-0 p-1 pl-2 pr-2 modal-header">
                         {title && <div className="col p-0">
                             <h5 className="modal-title">{title}</h5>
                         </div>}
                         <div className="col p-0">
                             <div className="btb-group float-right ml-2">
-                                <button className="btn btn-default pt-0 pb-0 text-danger" onClick={handleClose}>X
+                                <button className="btn btn-default p-0 close-button" onClick={handleClose}>X
                                 </button>
                             </div>
                         </div>

@@ -54,8 +54,8 @@ class ManualEntryForm extends Component {
                        </div>
                    </form>}
                    footer={<div className="btn-group">
-                       <button className="btn btn-outline-danger" onClick={() => complete(false)}>Cancel</button>
-                       <button type="button" className="btn btn-outline-primary"
+                       <button className="btn btn-sm btn-outline-danger" onClick={() => complete(false)}>Cancel</button>
+                       <button type="button" className="btn btn-sm btn-outline-primary"
                                onClick={this.doSubmit.bind(this)}>Submit
                        </button>
                    </div>}

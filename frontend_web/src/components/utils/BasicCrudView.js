@@ -28,12 +28,11 @@ class BasicCrudView extends React.Component {
     }
 
     render() {
-        const {headers, records, title, exportable} = this.props.data
-        const {onAdd, onDelete, onUpdate, isLoading, onRowClick, pages, count} = this.props
+        const {headers, records, title} = this.props.data
+        const {onAdd, onDelete, onUpdate, isLoading, onRowClick, pagination} = this.props
         const {open} = this.state
         let actions = this.props.actions ? this.props.actions : []
         let options = this.props.options ? this.props.options : {}
-        // exportButton: exportable, toolbar: toolbar,
         actions = [
             {
                 tooltip: 'Remove all selected',
@@ -54,28 +53,13 @@ class BasicCrudView extends React.Component {
                     title={title}
                     columns={headers}
                     data={records}
-                    pages={pages}
-                    count={count}
+                    pagination={pagination}
                     isLoading={isLoading}
                     options={{
                         selection: true,
                         ...options
                     }}
                     onRowClick={onRowClick}
-                    actions={actions}
-                    editable={{
-                        onRowAdd: onAdd ? newData => new Promise(resolve => {
-                            onAdd({...newData, cb: resolve})
-                        }) : null,
-                        onRowUpdate: onUpdate ? (newData, oldData) =>
-                            new Promise(resolve => {
-                                onUpdate({...newData, cb: resolve})
-                            }) : null,
-                        onRowDelete: onDelete ? oldData =>
-                            new Promise(resolve => {
-                                onDelete({...oldData, cb: resolve})
-                            }) : null,
-                    }}
                 />
                 <SimpleDialog open={open} handleClose={this.handleClose} handleOk={this.handleOk} title="Confirmation"
                               description="Are you sure you want to delete selected records?"/>

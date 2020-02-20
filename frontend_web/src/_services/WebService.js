@@ -13,9 +13,12 @@ export const apiGet = (url, token) => {
     })
 }
 export const apiGetPaginated = (url, token, page = 1) => {
-    return axios.get(url,{
+    return axios.get(url, {
         headers: {
             'Authorization': `Bearer ${token}`
+        },
+        params: {
+            page
         }
     })
 }

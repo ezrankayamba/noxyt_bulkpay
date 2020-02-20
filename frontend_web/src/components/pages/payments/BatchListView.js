@@ -7,12 +7,14 @@ import {
     deleteSelectedBatches,
     fetchBatches
 } from "../../../_services/PaymentsService";
-import BasicCrudView from "../../ui-utils/BasicCrudView";
+import BasicCrudView from "../../utils/BasicCrudView";
 import ManualEntryForm from "./ManualEntryForm";
 import FileUploadForm from "./FileUploadForm";
 import BatchDetailPopup from "./BatchDetailPopup";
 import BatchActionView from "./BatchActionView";
 import {refreshFSM} from "../../../redux/fsm/actions";
+import Numbers from "../../../_helpers/Numbers";
+import {DateTime} from "../../../_helpers/DateTime";
 
 
 @connect((state) => {
@@ -33,7 +35,7 @@ class BatchListView extends Component {
             selectedBatch: null,
             showModel: true,
             pages: 1,
-            count: 0
+            pageNo: 1
         }
         this.doAdd = this.doAdd.bind(this)
         this.doDelete = this.doDelete.bind(this)
@@ -41,10 +43,25 @@ class BatchListView extends Component {
         this.onRowClick = this.onRowClick.bind(this)
         this.translate = this.translate.bind(this)
         this.refresh = this.refresh.bind(this)
+        this.onPageChange = this.onPageChange.bind(this)
+    }
+
+    onPageChange(pageNo) {
+        this.setState({pageNo})
+        this.refresh(pageNo)
     }
 
     onRowClick(e, row) {
-        this.setState({selectedBatch: row, detail: true})
+        this.setState({
+            selectedBatch: {
+                ...row, records: row.records.map(r => {
+                    return {
+                        ...r,
+                        amount: Numbers.fmt(parseFloat(r.amount))
+                    }
+                })
+            }, detail: true
+        })
     }
 
     translate(code) {
@@ -54,10 +71,9 @@ class BatchListView extends Component {
 
     manualEntryComplete(data) {
         this.setState({manualEntry: false})
-        if (data.records.length) {
+        if (data.records && data.records.length) {
             this.setState({isLoading: true})
             createBatchManual(this.props.user.token, data, (res) => {
-                console.log(res)
                 this.refresh()
             })
         } else {
@@ -80,22 +96,23 @@ class BatchListView extends Component {
         }
     }
 
-    refresh() {
+    refresh(page = 1) {
         this.setState({isLoading: true}, () => {
-            fetchBatches(this.props.user.token, 1, (res) => {
-                console.log(res)
+            fetchBatches(this.props.user.token, page, (res) => {
                 if (res) {
+
                     this.setState({
                         payments: res.data.map(item => {
                             return {
                                 ...item,
-                                count: item.records.length,
+                                count: Numbers.fmt(item.records.length),
+                                amount: Numbers.fmt(Numbers.sum(item.records.map(r => r.amount))),
                                 statusText: this.translate(item.status),
+                                created_at: DateTime.fmt(item.created_at)
                             }
                         }),
                         isLoading: false,
-                        pages: res.pages,
-                        count: res.records
+                        pages: parseInt(res.pages)
                     })
                 }
             })
@@ -122,10 +139,6 @@ class BatchListView extends Component {
         })
     }
 
-    testModel(e) {
-        this.setState({showModel: true})
-    }
-
     doAdd(params) {
         let body = {name: params.name, comments: params.comments}
         createBatch(this.props.user.token, body, (res) => {
@@ -143,6 +156,7 @@ class BatchListView extends Component {
                 {field: 'name', title: 'Name'},
                 {field: 'comments', title: 'Comments'},
                 {field: 'count', title: 'Count'},
+                {field: 'amount', title: 'Amount'},
                 {field: 'created_at', title: 'Created'},
                 {field: 'statusText', title: 'Status'},
                 {
@@ -152,7 +166,7 @@ class BatchListView extends Component {
             ],
             title: 'List of batches'
         }
-        const {isLoading, selectedBatch, pages, count} = this.state
+        const {isLoading, selectedBatch, pages, count, pageNo} = this.state
         let actions = [
             {
                 tooltip: 'Refresh',
@@ -162,7 +176,7 @@ class BatchListView extends Component {
                 }
             }
         ]
-
+        const pagination = {pages, pageNo, onPageChange: this.onPageChange}
         return (
             <div className="row">
                 <div className="col">
@@ -176,20 +190,23 @@ class BatchListView extends Component {
                                     this.setState({manualEntry: true})
                                 }}>Manual Entry
                                 </button>
-                                <button className="btn btn-outline-primary" onClick={() => {
+                                <button className="btn btn-primary" onClick={() => {
                                     this.setState({fileUpload: true})
                                 }}>Upload File
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <BasicCrudView pages={pages} count={count} data={data} onDeleteAll={this.doDeleteSelected}
+                    <BasicCrudView data={data} pagination={pagination} onDeleteAll={this.doDeleteSelected}
                                    isLoading={isLoading}
                                    actions={actions} onRowClick={this.onRowClick}/>
-                    <ManualEntryForm open={this.state.manualEntry} complete={this.manualEntryComplete.bind(this)}/>
-                    <FileUploadForm open={this.state.fileUpload} complete={this.fileUploadComplete.bind(this)}/>
+                    {this.state.manualEntry &&
+                    <ManualEntryForm open={this.state.manualEntry} complete={this.manualEntryComplete.bind(this)}/>}
+                    {this.state.fileUpload &&
+                    <FileUploadForm open={this.state.fileUpload} complete={this.fileUploadComplete.bind(this)}/>}
+                    {this.state.detail &&
                     <BatchDetailPopup open={this.state.detail} complete={this.detailComplete.bind(this)}
-                                      batch={selectedBatch}/>
+                                      batch={selectedBatch}/>}
                 </div>
             </div>
         )

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Modal from "../../modal/Modal";
-import CrudTable from "../../ui-utils/CrudTable";
-import Icons from "../../ui-utils/Incons";
+import CrudTable from "../../utils/CrudTable";
+import {IconTrash} from "../../utils/Incons";
 
 class ManualEntryForm extends Component {
     constructor(props) {
@@ -12,10 +12,18 @@ class ManualEntryForm extends Component {
             name: "ManualEntry",
             comments: "",
             error: "",
-            showAdd: false
+            showAdd: false,
+            pages: 1,
+            count: 0,
+            pageNo: 1
         }
         this.handleChange = this.handleChange.bind(this)
         this.newComplete = this.newComplete.bind(this)
+        this.onPageChange = this.onPageChange.bind(this)
+    }
+
+    onPageChange(pageNo) {
+        this.setState({pageNo})
     }
 
     handleChange(e) {
@@ -42,7 +50,7 @@ class ManualEntryForm extends Component {
         this.setState({records: this.state.records.filter(r => r.id !== params.id)})
     }
 
-    onAdd(params) {
+    onAdd(params, cb) {
         let {id} = this.state
         id++
         let record = {
@@ -54,8 +62,7 @@ class ManualEntryForm extends Component {
             error: "",
             id: id, records: [...this.state.records, record]
         }, () => {
-            console.log(record, this.state)
-            // params.cb()
+            if (cb) cb(true)
         })
     }
 
@@ -66,7 +73,7 @@ class ManualEntryForm extends Component {
                 comments: this.state.comments,
                 records: this.state.records
             }
-            console.log("Batch?",batch)
+            console.log("Batch?", batch)
             this.props.complete(batch)
         } else {
             this.setState({error: "You must add at least one record"})
@@ -79,9 +86,17 @@ class ManualEntryForm extends Component {
     }
 
     render() {
-        const {error, openAdd} = this.state
+        const {error, openAdd, records, pageNo} = this.state
+        let count = records.length
+        const pageSize = 5
+        let pages = Math.ceil(count / pageSize)
+        let from = (pageNo - 1) * pageSize
+        let to = from + pageSize
+        const pagination = {pages, pageNo, onPageChange: this.onPageChange}
+        let pageRecords = records.slice(from, to)
+
         let data = {
-            records: this.state.records,
+            records: pageRecords,
             headers: [
                 {
                     field: 'account', title: 'MSISDN', validator: {
@@ -104,8 +119,9 @@ class ManualEntryForm extends Component {
                 {
                     field: 'actions',
                     title: '',
-                    render: (row) => <button className="btn text-danger float-right" onClick={() => this.doDelete(row)}>
-                        <Icons.trash/></button>
+                    render: (row) => <button className="btn p-0 text-danger btn-link float-right"
+                                             onClick={() => this.doDelete(row)}>
+                        <IconTrash/></button>
                 },
             ],
             title: null,
@@ -118,19 +134,23 @@ class ManualEntryForm extends Component {
 
         return (
             <Modal modalId="manualEntry" show={open} handleClose={() => this.newComplete(false)} title="Manual Entry"
-                   content={<CrudTable tableId="manualEntryTable" columns={data.headers} data={data.records}
-                                       onDeleteAll={this.doDeleteSelected.bind(this)}
-                                       onUpdate={this.doUpdate.bind(this)}
-                                       onDelete={this.doDelete.bind(this)}
-                                       options={tableOptions}
-                                       newRecord={
-                                           {
-                                               open: openAdd,
-                                               onAdd: this.onAdd.bind(this),
-                                               show: () => this.setState({openAdd: true}),
-                                               hide: () => this.setState({openAdd: false})
-                                           }
-                                       }/>}
+                   content={<div>
+                       <textarea value={this.state.comments} onChange={this.handleChange} className="form-control mb-2" name="comments" rows="2" placeholder="Enter batch comments"></textarea>
+                       <CrudTable pagination={pagination} tableId="manualEntryTable" columns={data.headers}
+                                  data={data.records}
+                                  onDeleteAll={this.doDeleteSelected.bind(this)}
+                                  onUpdate={this.doUpdate.bind(this)}
+                                  onDelete={this.doDelete.bind(this)}
+                                  options={tableOptions}
+                                  newRecord={
+                                      {
+                                          open: openAdd,
+                                          onAdd: this.onAdd.bind(this),
+                                          show: () => this.setState({openAdd: true}),
+                                          hide: () => this.setState({openAdd: false})
+                                      }
+                                  }/>
+                   </div>}
                    footer={<div className="btn-group">
                        <button className="btn btn-sm btn-outline-danger" onClick={() => complete(false)}>Cancel
                        </button>

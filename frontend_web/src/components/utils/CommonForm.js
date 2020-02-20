@@ -65,14 +65,14 @@ class CommonForm extends Component {
         let errors = this.validateAll()
         this.setState({errors})
         if (validateForm(this.state.errors)) {
-
             let onSubmit = this.props.meta.onSubmit
             if (onSubmit) {
-                onSubmit(this.state.data)
-                this.clearFormData()
+                onSubmit(this.state.data, (res) => {
+                    if (res) {
+                        this.clearFormData()
+                    }
+                })
             }
-        } else {
-
         }
     };
 
@@ -114,7 +114,7 @@ class CommonForm extends Component {
                         )
                     })}
                     <div className="submit pt-3">
-                        <button className="btn btn-primary">{meta.btnLabel || "Submit"}</button>
+                        <button className="btn btn-sm btn-primary">{meta.btnLabel || "Submit"}</button>
                     </div>
                 </form>
             </div>

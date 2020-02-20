@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import Header from "../../../header";
 import Pages from "../../Pages";
-
+import { IconContext } from "react-icons";
 class MainLayout extends Component {
     render() {
         return (
-            <>
-                <header className="app-bg-primary sticky-top">
+            <IconContext.Provider value={{ className: 'react-icons', size:"1.0rem" }}>
+                <header className="app-bg-primary sticky-top main-nav">
                     <nav className="container text-light navbar navbar-dark navbar-expand-md">
                         <a href="#" className="navbar-brand">BULK PAYMENT</a>
                         <button
@@ -30,7 +30,7 @@ class MainLayout extends Component {
                 <main className="container">
                     <Pages/>
                 </main>
-            </>
+            </IconContext.Provider>
         );
     }
 }

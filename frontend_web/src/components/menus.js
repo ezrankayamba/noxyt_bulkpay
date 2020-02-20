@@ -4,6 +4,7 @@ import LogoutPage from "./pages/auth/LogoutPage";
 import ClientsIndexPage from "./pages/clients/ClientsIndexPage";
 import PaymentsIndexPage from "./pages/payments/PaymentsIndexPage";
 import React from "react";
+import {IconClient, IconHome, IconPayment, IconSignIn, IconSignOut} from "./utils/Incons";
 
 const getMenus = (loggedIn, privileges) => {
     let pFilter = (m) => {
@@ -11,12 +12,13 @@ const getMenus = (loggedIn, privileges) => {
     }
     let menus = loggedIn ?
         [
-            {id: 1, path: "/home", name: "Home", component: HomePage, privilege: 'Anonymous'},
+            {id: 1, path: "/home", name: "Home", component: HomePage, Icon: () => <IconHome/>, privilege: 'Anonymous'},
             {
                 id: 2,
                 path: "/clients",
                 name: "Clients",
                 component: ClientsIndexPage,
+                Icon: () => <IconClient/>,
                 privilege: 'BackOffice.viewClients'
             },
             {
@@ -24,6 +26,7 @@ const getMenus = (loggedIn, privileges) => {
                 path: "/payments",
                 name: "Payments",
                 component: PaymentsIndexPage,
+                Icon: () => <IconPayment/>,
                 privilege: 'Payments.viewPayments'
             },
             {
@@ -31,11 +34,19 @@ const getMenus = (loggedIn, privileges) => {
                 path: "/logout",
                 name: "Logout",
                 component: LogoutPage,
+                Icon: () => <IconSignOut/>,
                 privilege: 'Anonymous'
             },
         ] : [
-            {id: 1, path: "/home", name: "Home", component: HomePage, privilege: 'Anonymous'},
-            {id: 2, path: "/login", name: "Login", component: LoginPage, privilege: 'Anonymous'}
+            {id: 1, path: "/home", name: "Home", component: HomePage, Icon: () => <IconHome/>, privilege: 'Anonymous'},
+            {
+                id: 2,
+                path: "/login",
+                name: "Login",
+                component: LoginPage,
+                Icon: () => <IconSignIn/>,
+                privilege: 'Anonymous'
+            }
         ]
     return menus.filter(pFilter);
 }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Redirect} from "react-router-dom";
 import {login, logout} from "../../../redux/auth/actions";
 import {connect} from "react-redux";
-import CommonForm from "../../ui-utils/CommonForm";
+import CommonForm from "../../utils/CommonForm";
 
 @connect((state) => {
     return {
