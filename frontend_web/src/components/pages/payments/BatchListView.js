@@ -86,6 +86,7 @@ class BatchListView extends Component {
     }
 
     fileUploadComplete(data) {
+        console.log(data)
         this.setState({fileUpload: false})
         if (data) {
             this.setState({isLoading: true})

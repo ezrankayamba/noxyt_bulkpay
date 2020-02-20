@@ -19,7 +19,7 @@ body, html{
     height: 100%;
 }
 body {
-    background: linear-gradient(#F2B5B2, #f1f1f1, #f1f1f1, #f1f1f1);
+    background: #f1f1f1;
 }
 .main-nav{
     box-shadow: 2px 3px 5px #C0B5B2;

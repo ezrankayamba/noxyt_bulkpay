@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {File} from "../utils/file/File";
 
 @connect((state) => {
     return {
@@ -8,17 +9,27 @@ import {connect} from "react-redux";
     }
 })
 class HomePage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {file: null}
+        this.onChange = this.onChange.bind(this)
+    }
+
     onSubmit(data) {
         console.log("Submitted data: ", data)
+    }
+
+    onChange(e) {
+        this.setState({file: e.target.files[0]})
     }
 
     render() {
         const {user, loggedIn} = this.props
         return (
-            <div>
-                <h5>Home Page</h5>
-                {loggedIn && <p>You are logged in</p>}
-                {!loggedIn && <p>You are not logged in</p>}
+            <div className="pt-3 row">
+                <div className="col">
+                    <img src="../../../static/images/bulk-pay.jpg" className="img-fluid"/>
+                </div>
             </div>
         );
     }
