@@ -29,11 +29,13 @@ export let login = (params, cb) => {
     }
     return (dispatch, getState) => {
         dispatch(request())
-        loginPost(username, password, (res)=>{
-            if(res){
+        loginPost(username, password, (res) => {
+            if (res) {
                 dispatch(success({username: username, token: res.access_token, profile: res.profile}))
-            }else{
+                cb(true)
+            } else {
                 dispatch(fail("Login failed!"))
+                cb(false)
             }
         })
     }

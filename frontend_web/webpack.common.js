@@ -3,16 +3,16 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     optimization: {
-        minimize: true //Update this to true or false
+        minimize: true
     },
     entry: {
         app: './src/index.js',
     },
     plugins: [
-        // new CleanWebpackPlugin(['dist/*']) for < v2 versions of CleanWebpackPlugin
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Production',
@@ -25,8 +25,10 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        // new webpack.optimize.UglifyJsPlugin(), //minify everything
-        new webpack.optimize.AggressiveMergingPlugin()//Merge chunks
+        new webpack.optimize.AggressiveMergingPlugin(),//Merge chunks
+        new CopyPlugin([
+            {from: 'static', to: 'static'},
+        ]),
     ],
     output: {
         filename: '[name].bundle.js',

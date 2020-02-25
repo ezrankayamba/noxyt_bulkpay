@@ -2,14 +2,13 @@ version: '3'
 services:
   api:
     image: ezrankayamba/bulkpay_rest:1.0.1
-    container_name: backend_rest
+    container_name: bulkpay_rest
     build: ./backend_rest
-    command: gunicorn backend_rest.wsgi:application --bind 0.0.0.0:8000
     ports:
       - "8000:8000"
   web:
     build: ./frontend_web
     image: ezrankayamba/bulkpay_web:1.0.1
-    container_name: frontend_web
+    container_name: bulkpay_web
     ports:
-      - "8080:80"
+      - "6060:80"

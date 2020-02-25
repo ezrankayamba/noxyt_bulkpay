@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django_filters',
     'oauth2_provider',
     'corsheaders',
+    'background_task',
 ]
 
 MIDDLEWARE = [
@@ -134,4 +135,4 @@ REST_FRAMEWORK = {
 
 
 # CORS
-CORS_ORIGIN_WHITELIST = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://192.168.99.101:8080', 'http://77.73.68.233:8080']
+CORS_ORIGIN_WHITELIST = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://192.168.99.101:8080', 'http://192.168.99.101:6060', 'http://77.73.68.233:8080', 'http://77.73.68.233:6060']
