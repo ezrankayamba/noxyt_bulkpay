@@ -9,6 +9,7 @@ import {logout} from "./redux/auth/actions";
 import {notifyMe} from "./_helpers/notification";
 import {SESSION_TIMEOUT_LOGOUT_AT, SESSION_TIMEOUT_WARNING_AT} from "./conf";
 import MainLayout from "./components/pages/layout/MainLayout";
+import MainLayout2 from "./components/pages/layout/MainLayout2";
 
 @connect((state) => {
     return {
@@ -32,7 +33,7 @@ class Index extends Component {
         const {loggedIn, user} = this.props
         return (
             <Router>
-                <MainLayout loggedIn={loggedIn} user={user}/>
+                <MainLayout2 loggedIn={loggedIn} user={user}/>
             </Router>
         );
     }

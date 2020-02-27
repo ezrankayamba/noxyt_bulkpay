@@ -21,7 +21,7 @@ class Modal extends Component {
                         </div>}
                         <div className="col p-0">
                             <div className="btb-group float-right ml-2">
-                                <button className="btn btn-default p-0 close-button" onClick={handleClose}>X
+                                <button onClick={handleClose}>X
                                 </button>
                             </div>
                         </div>

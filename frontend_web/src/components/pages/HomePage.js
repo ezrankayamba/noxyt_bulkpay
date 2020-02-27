@@ -25,9 +25,9 @@ class HomePage extends Component {
     render() {
         const {user, loggedIn} = this.props
         return (
-            <div className="pt-3 row">
-                <div className="col">
-                    <img src="../../../static/images/bulk-pay.jpg" className="img-fluid"/>
+            <div className="">
+                <div className="">
+                    <h5>Home page/dashboard</h5>
                 </div>
             </div>
         );

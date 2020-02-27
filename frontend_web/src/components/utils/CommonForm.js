@@ -83,11 +83,15 @@ class CommonForm extends Component {
         const handleClose = onClose || defaultClose
         return (
             <div className="form-wrap">
-                <h6 className="p-2"><span>{meta.title}</span>
+                <div className="form-header p-2">
+                    <h5 className=""><span>{meta.title}</span></h5>
                     {onClose &&
-                    <button className="btn btn-sm btn-default pt-0 pb-0 text-light float-right" onClick={handleClose}>X
-                    </button>}
-                </h6>
+                    <div className="float-right">
+                        <button className="float-right" onClick={handleClose}>X
+                        </button>
+                    </div>}
+                </div>
+
                 <form onSubmit={this.handleSubmit} noValidate className="p-3">
                     {meta.fields.map(f => {
                         return (
