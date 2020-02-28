@@ -15,6 +15,7 @@ import BatchActionView from "./BatchActionView";
 import {refreshFSM} from "../../../redux/fsm/actions";
 import Numbers from "../../../_helpers/Numbers";
 import {DateTime} from "../../../_helpers/DateTime";
+import {IconFile, IconManual, IconUpload} from "../../utils/Incons";
 
 
 @connect((state) => {
@@ -187,13 +188,13 @@ class BatchListView extends Component {
                         </div>
                         <div className="col-md">
                             <div className="btn-group float-md-right">
-                                <button className="btn btn-outline-primary" onClick={() => {
+                                <button className="btn btn-outline-primary p-2" onClick={() => {
                                     this.setState({manualEntry: true})
-                                }}>Manual Entry
+                                }}><IconManual/> Manual Entry
                                 </button>
-                                <button className="btn btn-primary" onClick={() => {
+                                <button className="btn btn-outline-primary p-2" onClick={() => {
                                     this.setState({fileUpload: true})
-                                }}>Upload File
+                                }}><IconUpload/>  Upload File
                                 </button>
                             </div>
                         </div>

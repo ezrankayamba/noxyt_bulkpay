@@ -22,7 +22,7 @@ class SideMenu extends Component {
                         return (
                             <NavLink key={item.id} to={item.path} className="br-menu-link">
                                 <div className="br-menu-item">
-                                    <i className={`menu-item-icon icon ${item.Icon} tx-22`}></i>
+                                    <item.Icon/>
                                     <span className="menu-item-label">{item.name}</span>
                                 </div>
                             </NavLink>

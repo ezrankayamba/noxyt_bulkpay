@@ -24,6 +24,16 @@ body {
 .main-nav{
     box-shadow: 2px 3px 5px #C0B5B2;
 }
-.react-icons {
-    margin-bottom: -.2rem;
+
+.pagination .icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.2em;
+}
+.pagination .btn{
+    padding: 0 .5rem;
+}
+textarea {
+    min-height: 1em;
+    width: 100%;
 }

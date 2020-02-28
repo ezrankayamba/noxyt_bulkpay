@@ -12,13 +12,13 @@ const getMenus = (loggedIn, privileges) => {
     }
     let menus = loggedIn ?
         [
-            {id: 1, path: "/home", name: "Home", component: HomePage, Icon: 'ion-ios-home-outline', privilege: 'Anonymous'},
+            {id: 1, path: "/home", name: "Home", component: HomePage, Icon: IconHome, privilege: 'Anonymous'},
             {
                 id: 2,
                 path: "/clients",
                 name: "Clients",
                 component: ClientsIndexPage,
-                Icon: "ion-ios-briefcase-outline",
+                Icon: IconClient,
                 privilege: 'BackOffice.viewClients'
             },
             {
@@ -26,25 +26,25 @@ const getMenus = (loggedIn, privileges) => {
                 path: "/payments",
                 name: "Payments",
                 component: PaymentsIndexPage,
-                Icon: "ion-card",
+                Icon: IconPayment,
                 privilege: 'Payments.viewPayments'
             },
             {
                 id: 4,
                 path: "/logout",
-                name: "Logout",
+                name: "Sign Out",
                 component: LogoutPage,
-                Icon: "ion-power",
+                Icon: IconSignOut,
                 privilege: 'Anonymous'
             },
         ] : [
-            {id: 1, path: "/home", name: "Home", component: HomePage, Icon: 'ion-ios-home-outline', privilege: 'Anonymous'},
+            {id: 1, path: "/home", name: "Home", component: HomePage, Icon: IconHome, privilege: 'Anonymous'},
             {
                 id: 2,
                 path: "/login",
-                name: "Login",
+                name: "Sign In",
                 component: LoginPage,
-                Icon: "ion-power",
+                Icon: IconSignIn,
                 privilege: 'Anonymous'
             }
         ]

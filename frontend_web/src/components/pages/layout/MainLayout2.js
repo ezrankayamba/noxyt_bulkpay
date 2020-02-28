@@ -8,7 +8,7 @@ import SideMenu from "../../SideMenu";
 class MainLayout2 extends Component {
     render() {
         return (
-            <IconContext.Provider value={{className: 'react-icons', size: "1.0rem"}}>
+            <>
                 <div className="br-logo"><a href=""><span> </span>Bulk Payment<span> </span></a></div>
                 <SideMenu/>
                 <div className="br-header">
@@ -17,7 +17,7 @@ class MainLayout2 extends Component {
                 <div className="br-mainpanel p-2">
                     <Pages/>
                 </div>
-            </IconContext.Provider>
+            </>
         );
     }
 }

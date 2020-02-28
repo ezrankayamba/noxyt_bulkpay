@@ -1,5 +1,6 @@
 import "./Modal.css"
 import React, {Component} from 'react';
+import {IconClose} from "../utils/Incons";
 
 class Modal extends Component {
     otherClick(e) {
@@ -21,7 +22,8 @@ class Modal extends Component {
                         </div>}
                         <div className="col p-0">
                             <div className="btb-group float-right ml-2">
-                                <button onClick={handleClose}>X
+                                <button className="btn btn-link p-0 text-warning" onClick={handleClose}>
+                                    <IconClose/>
                                 </button>
                             </div>
                         </div>

@@ -28,9 +28,9 @@ class CrudTable extends React.Component {
             onSubmit: newRecord && newRecord.onAdd
         }
         return (
-            <div className="bg-white p-2">
+            <div className="bg-light p-2">
                 {newRecord &&
-                <button className="btn btn-sm btn-default float-right" onClick={newRecord.show}><IconPlus/>
+                <button className="btn btn-sm btn-link float-right" onClick={newRecord.show}><IconPlus/>
                 </button>}
                 <table className="table table-sm table-hover table-bordered">
                     <thead className="border-none">

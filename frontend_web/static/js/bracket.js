@@ -145,13 +145,13 @@
 
 
   // displaying time and date in right sidebar
-  var interval = setInterval(function() {
-    var momentNow = moment();
-    $('#brDate').html(momentNow.format('MMMM DD, YYYY') + ' '
-      + momentNow.format('dddd')
-      .substring(0,3).toUpperCase());
-      $('#brTime').html(momentNow.format('hh:mm:ss A'));
-  }, 100);
+  // var interval = setInterval(function() {
+  //   var momentNow = moment();
+  //   $('#brDate').html(momentNow.format('MMMM DD, YYYY') + ' '
+  //     + momentNow.format('dddd')
+  //     .substring(0,3).toUpperCase());
+  //     $('#brTime').html(momentNow.format('hh:mm:ss A'));
+  // }, 100);
 
   // Datepicker
   if($().datepicker) {
@@ -164,16 +164,16 @@
 
 
   // custom scrollbar style
-  $('.overflow-y-auto').perfectScrollbar();
+  // $('.overflow-y-auto').perfectScrollbar();
 
   // jquery ui datepicker
-  $('.datepicker').datepicker();
+  // $('.datepicker').datepicker();
 
   // switch button
-  $('.switch-button').switchButton();
+  // $('.switch-button').switchButton();
 
   // peity charts
-  $('.peity-bar').peity('bar');
+  // $('.peity-bar').peity('bar');
 
   // highlight syntax highlighter
   $('pre code').each(function(i, block) {

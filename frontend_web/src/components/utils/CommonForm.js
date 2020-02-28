@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import "./CommonForm.css"
+import {IconClose} from "./Incons";
 
 const validateForm = errors => {
     let valid = true;
@@ -82,12 +83,13 @@ class CommonForm extends Component {
         const defaultClose = () => console.log("Not handled...")
         const handleClose = onClose || defaultClose
         return (
-            <div className="form-wrap">
+            <div className="form-wrap bg-light">
                 <div className="form-header p-2">
                     <h5 className=""><span>{meta.title}</span></h5>
                     {onClose &&
                     <div className="float-right">
-                        <button className="float-right" onClick={handleClose}>X
+                        <button className="float-right btn btn-link p-0 text-warning" onClick={handleClose}>
+                            <IconClose/>
                         </button>
                     </div>}
                 </div>

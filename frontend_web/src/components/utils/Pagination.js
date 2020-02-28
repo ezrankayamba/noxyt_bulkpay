@@ -11,24 +11,24 @@ class Pagination extends Component {
             pList.push(i)
         }
         return (
-            <div>
+            <div className="pagination">
                 <div className="btn-group">
                     {pageNo > 1 && <>
-                        <button className="btn btn-sm btn-outline-info"
+                        <button className="btn btn-sm btn-outline-secondary"
                                 onClick={() => onPageChange(1)}><IconFirst/>
                         </button>
-                        <button className="btn btn-sm btn-outline-info"
+                        <button className="btn btn-sm btn-outline-secondary"
                                 onClick={() => onPageChange(pageNo - 1)}><IconPrev/>
                         </button>
                     </>}
                     {pList.map(p => <button key={p}
-                                            className={`${p === pageNo ? 'active ' : ''}btn btn-sm btn-outline-info`}
+                                            className={`${p === pageNo ? 'active ' : ''}btn btn-sm btn-outline-secondary`}
                                             onClick={() => onPageChange(p)}>{p}</button>)}
                     {pageNo !== pages && <>
-                        <button className="btn btn-sm btn-outline-info" onClick={() => onPageChange(pageNo + 1)}>
+                        <button className="btn btn-sm btn-outline-secondary" onClick={() => onPageChange(pageNo + 1)}>
                             <IconNext/>
                         </button>
-                        <button className="btn btn-sm btn-outline-info" onClick={() => onPageChange(pages)}>
+                        <button className="btn btn-sm btn-outline-secondary" onClick={() => onPageChange(pages)}>
                             <IconLast/></button>
                     </>}
                 </div>

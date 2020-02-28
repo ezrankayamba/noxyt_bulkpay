@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Modal from "../../modal/Modal";
 import {File} from "../../utils/file/File";
+import AutoTextArea from "../../utils/inputs/AutoTextArea";
 
 class ManualEntryForm extends Component {
     constructor(props) {
@@ -21,14 +22,16 @@ class ManualEntryForm extends Component {
     }
 
     doSubmit(e) {
-        if (this.state.name && this.state.comments) {
+        if (!this.state.name) {
+            this.setState({error: "No file selected"})
+        } else if (!this.state.comments) {
+            this.setState({error: "Comments is mandatory"})
+        }else {
             let batch = new FormData()
             batch.append("name", this.state.name)
             batch.append("comments", this.state.comments)
             batch.append("file", this.state.file)
             this.props.complete(batch)
-        } else {
-            console.log("Invalid data")
         }
     }
 
@@ -40,6 +43,7 @@ class ManualEntryForm extends Component {
     }
 
     render() {
+        const {error} = this.state
         const {open, complete} = this.props
         const title = "File Upload"
         const media = ".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -47,8 +51,8 @@ class ManualEntryForm extends Component {
             <Modal modalId="fileUpload" title={title} handleClose={() => complete(false)} show={open}
                    content={
                        <form autoComplete="off" className="mb-2">
-                           <textarea className="form-control" onChange={this.handleChange.bind(this)} name="comments"
-                                     placeholder="Enter batch comments" required/>
+                           <AutoTextArea onChange={this.handleChange.bind(this)} name="comments"
+                                         placeholder="Enter batch comments" required/>
                            <div className="pt-3">
                                <File onChange={this.handleFileSelect} name="image" label="Select batch file(csv, excel)"
                                      file={this.state.file} media={media}/>
@@ -60,6 +64,7 @@ class ManualEntryForm extends Component {
                             onClick={this.doSubmit.bind(this)}>Submit
                     </button>
                 </div>}
+                   error={error}
             />
         );
     }

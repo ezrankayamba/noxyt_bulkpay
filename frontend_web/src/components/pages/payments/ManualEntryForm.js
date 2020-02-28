@@ -67,7 +67,11 @@ class ManualEntryForm extends Component {
     }
 
     doSubmit() {
-        if (this.state.records.length) {
+        if (!this.state.records.length) {
+            this.setState({error: "You must add at least one record"})
+        } else if (!this.state.comments) {
+            this.setState({error: "Comments is mandatory"})
+        } else {
             let batch = {
                 name: this.state.name,
                 comments: this.state.comments,
@@ -75,8 +79,6 @@ class ManualEntryForm extends Component {
             }
             console.log("Batch?", batch)
             this.props.complete(batch)
-        } else {
-            this.setState({error: "You must add at least one record"})
         }
     }
 
@@ -135,7 +137,8 @@ class ManualEntryForm extends Component {
         return (
             <Modal modalId="manualEntry" show={open} handleClose={() => this.newComplete(false)} title="Manual Entry"
                    content={<div>
-                       <textarea value={this.state.comments} onChange={this.handleChange} className="form-control mb-2" name="comments" rows="2" placeholder="Enter batch comments"></textarea>
+                       <textarea value={this.state.comments} onChange={this.handleChange} className="form-control mb-2"
+                                 name="comments" rows="2" placeholder="Enter batch comments"></textarea>
                        <CrudTable pagination={pagination} tableId="manualEntryTable" columns={data.headers}
                                   data={data.records}
                                   onDeleteAll={this.doDeleteSelected.bind(this)}

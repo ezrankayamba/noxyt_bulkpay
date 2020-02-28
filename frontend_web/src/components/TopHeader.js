@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {IconPerson, IconSettings, IconSignOut} from "./utils/Incons";
 
 @connect((state) => {
     return {
@@ -22,7 +23,7 @@ class TopHeader extends Component {
                             <input id="searchbox" type="text" className="form-control" placeholder="Search"/>
                             <span className="input-group-btn">
                                 <button className="btn btn-secondary" type="button"><i
-                                    className="fa fa-search"></i></button>
+                                    className="ion ion-ios-search-strong tx-24"></i></button>
                             </span>
                         </div>
                     </>}
@@ -80,9 +81,9 @@ class TopHeader extends Component {
                             </a>
                             <div className="dropdown-menu dropdown-menu-header wd-200">
                                 <ul className="list-unstyled user-profile-nav">
-                                    <li><a href=""><i className="icon ion-ios-person"></i> Edit Profile</a></li>
-                                    <li><a href=""><i className="icon ion-ios-gear"></i> Settings</a></li>
-                                    <li><a href="/logout"><i className="icon ion-power"></i> Sign Out</a></li>
+                                    <li><a href=""><IconPerson/> Edit Profile</a></li>
+                                    <li><a href=""><IconSettings/> Settings</a></li>
+                                    <li><a href="/logout"><IconSignOut/> Sign Out</a></li>
                                 </ul>
                             </div>
                         </div>

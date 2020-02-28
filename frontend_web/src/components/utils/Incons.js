@@ -1,26 +1,20 @@
 import React from "react";
-import {
-    MdPlaylistAdd,
-    MdDelete,
-    MdHome,
-    MdLastPage,
-    MdNavigateNext,
-    MdFirstPage,
-    MdNavigateBefore,
-    MdPayment,
-    MdDomain,
-    MdLock,
-    MdLockOpen
-} from "react-icons/md";
 
-export const IconPlus = () => <MdPlaylistAdd/>
-export const IconTrash = () => <MdDelete/>
-export const IconHome = () => <MdHome/>
-export const IconFirst = () => <MdFirstPage/>
-export const IconPrev = () => <MdNavigateBefore/>
-export const IconNext = () => <MdNavigateNext/>
-export const IconLast = () => <MdLastPage/>
-export const IconPayment = () => <MdPayment/>
-export const IconClient = () => <MdDomain/>
-export const IconSignOut = () => <MdLock/>
-export const IconSignIn = () => <MdLockOpen/>
+export const IconPlus = () => <i className="icon ion-plus-circled tx-24"></i>
+export const IconTrash = () => <i className="icon ion-trash-b"></i>
+export const IconHome = () => <i className="icon ion-ios-home-outline"></i>
+export const IconFirst = () => <>|<i className="icon ion-ios-arrow-back"></i></>
+export const IconPrev = () => <i className="icon ion-ios-arrow-back"></i>
+export const IconNext = () => <i className="icon ion-ios-arrow-right"></i>
+export const IconLast = () => <><i className="icon ion-ios-arrow-right"></i>|</>
+export const IconPayment = () => <i className="icon ion-card"></i>
+export const IconClient = () => <i className="icon ion-ios-briefcase-outline"></i>
+export const IconSignOut = () => <i className="icon ion-power"></i>
+export const IconSignIn = () => <i className="icon ion-power"></i>
+export const IconSettings = () => <i className="icon ion-ios-gear"></i>
+export const IconPerson = () => <i className="icon ion-ios-person"></i>
+export const IconFile = () => <i className="icon ion-document-text"></i>
+export const IconUpload = () => <i className="icon ion-arrow-up-a"></i>
+export const IconManual = () => <i className="icon ion-grid"></i>
+export const IconClose = () => <i className="ion ion-ios-close-outline tx-24"></i>
+
