@@ -3,9 +3,49 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, Token
 from . import serializers
 from . import models
 from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
-class UserDetailView(generics.RetrieveAPIView):
+class UserListView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['users']
+    serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(client_user__isnull=True).order_by('-date_joined')
+
+
+class RoleListView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['users']
+    serializer_class = serializers.RoleSerializer
+
+    def paginate_queryset(self, queryset):
+        return None
+
+    def get_queryset(self):
+        return models.Role.objects.all()
+
+
+class CreateUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['users']
+
+    def post(self, request, format=None):
+        data = request.data
+
+        user = User.objects.create_user(username=data['username'], password='testing321')
+        profile = user.profile
+        profile.role_id = data['role']
+        profile.save()
+        return Response({
+            'status': 0,
+            'message': f'Successfully created user'
+        })
+
+
+class MyUserDetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated, TokenHasScope]
     required_scopes = ['read']
     serializer_class = serializers.UserSerializer
@@ -14,9 +54,10 @@ class UserDetailView(generics.RetrieveAPIView):
         return User.objects.get(pk=self.request.user.id)
 
 
-class CreateUserView(generics.CreateAPIView):
-    model = User
-    permission_classes = [
-        permissions.AllowAny
-    ]
+class ManageUserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['read']
     serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        return models.User.objects.all()

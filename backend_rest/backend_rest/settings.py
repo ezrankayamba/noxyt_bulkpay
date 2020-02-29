@@ -15,7 +15,6 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.99.101', '77.73.68.233']
 # Application definition
 
 INSTALLED_APPS = [
-    'project_tracker.apps.ProjectTrackerConfig',
     'clients.apps.ClientsConfig',
     'payments.apps.PaymentsConfig',
     'users.apps.UsersConfig',
@@ -120,7 +119,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 OAUTH2_PROVIDER = {
-    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'projects': 'Access list of projects', 'clients': 'Manage clients', 'payments': 'Manage payments'}
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'projects': 'Access list of projects', 'clients': 'Manage clients', 'payments': 'Manage payments', 'users': 'Manage users'}
 }
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

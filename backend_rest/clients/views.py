@@ -4,6 +4,8 @@ from . import serializers
 from . import models
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.contrib.auth.models import User
+from rest_framework.renderers import JSONRenderer
 
 
 class ClientListView(generics.ListCreateAPIView):
@@ -35,4 +37,25 @@ class DeleteClientsView(APIView):
         return Response({
             'status': 0,
             'message': f'Successfully deleted {len(ids)} records'
+        })
+
+
+class CreateClientUserView(APIView):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['clients']
+
+    def post(self, request, format=None):
+        data = request.data
+
+        user = User.objects.create_user(username=data['username'], password='testing321')
+        profile = user.profile
+        profile.role_id = data['role']
+        profile.save()
+
+        models.ClientUser.objects.create(user=user, client_id=data['client_id'])
+
+        return Response({
+            'status': 0,
+            'message': f'Successfully created user',
+            'client': JSONRenderer().render(serializers.ClientSerializer(models.Client.objects.get(pk=data['client_id'])).data)
         })
