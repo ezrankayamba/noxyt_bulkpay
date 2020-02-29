@@ -29,9 +29,11 @@ class LoginPage extends Component {
     submitLogin({username, password}) {
         this.setState({isLoading: true})
         this.props.login({username, password, history: this.props.history}, (res) => {
-            this.setState({isLoading: false})
             if (!res) {
-                this.setState({snackbar: {message: "Login failed, try correct credentials", timeout: 1000, error: true}})
+                this.setState({
+                    isLoading: false,
+                    snackbar: {message: "Login failed, try correct credentials", timeout: 1000, error: true}
+                })
             }
         });
     }

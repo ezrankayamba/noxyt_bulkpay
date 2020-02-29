@@ -60,3 +60,11 @@ export const deleteSelectedClients = (token, ids, cb) => {
             cb(false)
         })
 }
+export const createClientUser = (token, body, cb) => {
+    apiPost(BASE_URL + "/clients/create-user", body, token)
+        .then(cb)
+        .catch(e => {
+            console.error(e)
+            cb(false)
+        })
+}

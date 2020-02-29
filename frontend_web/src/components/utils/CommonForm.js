@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import "./CommonForm.css"
 import {IconClose} from "./Incons";
+import ComputedInput from "./inputs/ComputedInput";
 
 const validateForm = errors => {
     let valid = true;
@@ -69,6 +70,7 @@ class CommonForm extends Component {
             let onSubmit = this.props.meta.onSubmit
             if (onSubmit) {
                 onSubmit(this.state.data, (res) => {
+                    console.log("Res: ", res)
                     if (res) {
                         this.clearFormData()
                     }
@@ -84,7 +86,7 @@ class CommonForm extends Component {
         const handleClose = onClose || defaultClose
         return (
             <div className="form-wrap bg-light">
-                <div className="form-header p-2">
+                {meta.title && <div className="form-header p-2">
                     <h5 className=""><span>{meta.title}</span></h5>
                     {onClose &&
                     <div className="float-right">
@@ -92,7 +94,7 @@ class CommonForm extends Component {
                             <IconClose/>
                         </button>
                     </div>}
-                </div>
+                </div>}
 
                 <form onSubmit={this.handleSubmit} noValidate className="p-3">
                     {meta.fields.map(f => {
@@ -100,15 +102,13 @@ class CommonForm extends Component {
                             <div key={f.name} className="mb-2">
                                 <div className="form-group mb-0">
                                     <label htmlFor={f.name}>{f.label}</label>
-                                    <input
-                                        type="text"
-                                        value={data[f.name] ? data[f.name] : ""}
-                                        name={f.name}
-                                        id={f.name}
-                                        className="form-control"
-                                        onChange={this.handleChange}
-                                        noValidate
-                                    />
+                                    <ComputedInput field={f}
+                                                   value={data[f.name] ? data[f.name] : ""}
+                                                   name={f.name}
+                                                   id={f.name}
+                                                   className="form-control"
+                                                   onChange={this.handleChange}
+                                                   noValidate/>
                                     {errors[f.name].length > 0 && (
                                         <small className="text-danger small">{errors[f.name]}</small>
                                     )}

@@ -37,7 +37,6 @@ class BatchActionView extends Component {
         let {actions} = this.getFsmState(rowData.status)
         if (actions) {
             let myPrivs = this.props.user.profile.role.privileges
-            console.log(myPrivs, actions.map(a => a.privilege))
             actions = actions.filter(a => myPrivs.includes(a.privilege))
         }
         return actions && actions.length ? (

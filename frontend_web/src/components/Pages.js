@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Route, Switch, Redirect} from "react-router-dom";
 import getMenus from "./menus";
 import {connect} from "react-redux";
+import {getPrivileges} from "../_services/AuthService";
 
 @connect((state) => {
     return {
@@ -12,7 +13,7 @@ import {connect} from "react-redux";
 class Pages extends Component {
     render() {
         const {loggedIn, user} = this.props
-        let privileges = loggedIn && user && user.profile ? user.profile.role.privileges : []
+        let privileges = getPrivileges(user)
         let menus = getMenus(this.props.loggedIn, privileges)
         return (
             <Switch>
