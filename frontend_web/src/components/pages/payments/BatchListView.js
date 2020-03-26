@@ -99,7 +99,7 @@ class BatchListView extends Component {
     }
 
     refresh(page = 1) {
-        this.setState({isLoading: true}, () => {
+        this.setState({isLoading: true, pageNo: page}, () => {
             fetchBatches(this.props.user.token, page, (res) => {
                 if (res) {
 
@@ -136,7 +136,7 @@ class BatchListView extends Component {
 
     doDeleteSelected(params) {
         deleteSelectedBatches(this.props.user.token, params.ids, (res) => {
-            params.cb(res)
+            params.cb()
             this.refresh()
         })
     }
@@ -194,7 +194,7 @@ class BatchListView extends Component {
                                 </button>
                                 <button className="btn btn-outline-primary p-2" onClick={() => {
                                     this.setState({fileUpload: true})
-                                }}><IconUpload/>  Upload File
+                                }}><IconUpload/> Upload File
                                 </button>
                             </div>
                         </div>

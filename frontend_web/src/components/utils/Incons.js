@@ -1,7 +1,8 @@
 import React from "react";
 
 export const IconPlus = () => <i className="icon ion-plus-circled tx-24"></i>
-export const IconTrash = () => <i className="icon ion-trash-b"></i>
+export const IconAdd = () => <i className="icon ion-plus-circled"></i>
+export const IconTrash = () => <i className="icon ion-trash-b tx-16"></i>
 export const IconHome = () => <i className="icon ion-ios-home-outline"></i>
 export const IconFirst = () => <>|<i className="icon ion-ios-arrow-back"></i></>
 export const IconPrev = () => <i className="icon ion-ios-arrow-back"></i>

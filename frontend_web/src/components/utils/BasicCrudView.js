@@ -1,6 +1,7 @@
 import React from 'react';
 import {SimpleDialog} from "./SimpleDialog";
 import CrudTable from "./CrudTable";
+import PropTypes from 'prop-types';
 
 class BasicCrudView extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class BasicCrudView extends React.Component {
         this.setState({open: false})
         this.props.onDeleteAll({
             ids: this.state.selectedIds,
-            cb: (res) => {
+            cb: () => {
 
             }
         })
@@ -29,24 +30,10 @@ class BasicCrudView extends React.Component {
 
     render() {
         const {headers, records, title} = this.props.data
-        const {onAdd, onDelete, onUpdate, isLoading, onRowClick, pagination} = this.props
+        const {isLoading, onRowClick, pagination} = this.props
         const {open} = this.state
-        let actions = this.props.actions ? this.props.actions : []
         let options = this.props.options ? this.props.options : {}
-        actions = [
-            {
-                tooltip: 'Remove all selected',
-                onClick: (evt, data) => {
-                    this.setState({
-                        selectedIds: data.map(item => item.id)
-                    }, () => {
-                        console.log(this.state)
-                    })
-                    this.setState({open: true})
-                }
-            },
-            ...actions
-        ]
+
         return (
             <div>
                 <CrudTable
@@ -67,5 +54,7 @@ class BasicCrudView extends React.Component {
         );
     }
 }
-
+BasicCrudView.propTypes = {
+    name: PropTypes.string
+};
 export default BasicCrudView;

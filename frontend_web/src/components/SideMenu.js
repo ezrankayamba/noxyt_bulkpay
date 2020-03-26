@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {logout} from "../redux/auth/actions";
 import getMenus from "./menus";
 import {NavLink} from "react-router-dom";
+import {getPrivileges} from "../_services/AuthService";
 
 @connect((state) => {
     return {
@@ -14,7 +15,7 @@ class SideMenu extends Component {
     render() {
         let {loggedIn, user} = this.props
 
-        let privileges = loggedIn && user && user.profile ? user.profile.role.privileges : []
+        let privileges = getPrivileges(user)
         return (
             <div className="br-sideleft overflow-y-auto">
                 <div className="br-sideleft-menu">

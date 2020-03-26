@@ -11,7 +11,7 @@ class CrudTable extends React.Component {
     }
 
     render() {
-        const {columns, data, onRowClick, isLoading, newRecord, tableId, pagination} = this.props
+        const {columns, data, onRowClick, isLoading, newRecord, pagination} = this.props
         let pages = 1, pageNo = 1, onPageChange = console.log
         if (pagination)
             pages = pagination.pages, pageNo = pagination.pageNo, onPageChange = pagination.onPageChange
