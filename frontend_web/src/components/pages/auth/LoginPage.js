@@ -29,14 +29,18 @@ class LoginPage extends Component {
     this.setState({ snackbar: null });
   }
 
-    submitLogin({username, password}) {
-        this.setState({isLoading: true})
-        this.props.login({username, password, history: this.props.history}, (res) => {
-            if (!res) {
-                this.setState({
-                    isLoading: false,
-                    snackbar: {message: "Login failed, try correct credentials", timeout: 1000, error: true}
-                })
+  submitLogin({ username, password }) {
+    this.setState({ isLoading: true });
+    this.props.login(
+      { username, password, history: this.props.history },
+      res => {
+        if (!res) {
+          this.setState({
+            isLoading: false,
+            snackbar: {
+              message: "Login failed, try correct credentials",
+              timeout: 1000,
+              error: true
             }
           });
         }
@@ -73,7 +77,7 @@ class LoginPage extends Component {
       return <Redirect to="/" />;
     }
     return (
-      <div className="row mt-3 p-0">
+      <div className="row mt-3">
         <div className="col-md-6 offset-md-3">
           <CommonForm meta={form} />
         </div>
