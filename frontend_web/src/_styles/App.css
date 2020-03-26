@@ -1,39 +1,40 @@
 .app-bg-primary {
-    background: #F26522;
+  background: #f26522;
 }
 
-.nav-item > .nav-link{
-    padding: .2rem .4rem;
+.nav-item > .nav-link {
+  padding: 0.2rem 0.4rem;
 }
 
-
-.loading-indicator{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-    padding: .4rem 1rem;
+.loading-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  padding: 0.4rem 1rem;
 }
-body, html{
-    height: 100%;
+body,
+html {
+  /* height: 100%; */
+  width: calc(100% - 4px);
 }
 body {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
-.main-nav{
-    box-shadow: 2px 3px 5px #C0B5B2;
+.main-nav {
+  box-shadow: 2px 3px 5px #c0b5b2;
 }
 
 .pagination .icon {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 1.2em;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1.2em;
 }
-.pagination .btn{
-    padding: 0 .5rem;
+.pagination .btn {
+  padding: 0 0.5rem;
 }
 textarea {
-    min-height: 1em;
-    width: 100%;
+  min-height: 1em;
+  width: 100%;
 }

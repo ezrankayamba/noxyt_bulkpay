@@ -101,7 +101,7 @@ class CommonForm extends Component {
                                 <div className="form-group mb-0">
                                     <label htmlFor={f.name}>{f.label}</label>
                                     <input
-                                        type="text"
+                                        type={f.type}
                                         value={data[f.name] ? data[f.name] : ""}
                                         name={f.name}
                                         id={f.name}
